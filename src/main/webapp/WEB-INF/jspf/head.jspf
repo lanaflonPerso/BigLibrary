@@ -1,0 +1,39 @@
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+<head>
+
+<title>${title}</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="image/library.png" />
+<%--=========================================================================== 
+Bind CSS documents.
+===========================================================================--%>
+<link rel="stylesheet" type="text/css" media="screen"
+	href="style/st4.css" />
+	
+<link rel="stylesheet" type="text/css" media="screen"
+	href="style/bootstrap.css" />
+	
+<link href="style/datepicker.min.css" rel="stylesheet" type="text/css">
+<%--=========================================================================== 
+Bind JS documents.
+===========================================================================--%>
+<script src="js/jquery-1.12.0.min.js"></script> 
+<script src="js/jquery-ui.min.js"></script> 
+<script src="js/datepicker.min.js"></script>
+<script src="js/general.js"></script>
+<script src="js/prefixfree.min.js"></script>
+<c:if test="${user.locale == 'en' or user.locale == 'EN'}">
+	<script src="js/i18n/datepicker.en.js"></script>
+</c:if>
+<c:if test="${user.locale == 'ru' or user.locale == 'RU'}">
+	<script src="js/i18n/datepicker.ru.js"></script>
+</c:if>
+<%--=========================================================================== 
+If you define http-equiv attribute, set the content type and the charset the same
+as you set them in a page directive.
+===========================================================================--%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>

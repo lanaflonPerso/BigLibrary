@@ -1,0 +1,147 @@
+<%--=========================================================================== 
+Header (top area). 
+===========================================================================--%>
+
+<%@ page import="ua.khai.slynko.Library.db.Role"%>
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+<c:url var="controllerListAdminCatalogUrl"
+	value='controller?command=listAdminCatalog' />
+
+<c:url var="controllerListLibrariansUrl"
+	value='controller?command=listLibrarians' />
+
+<c:url var="controllerListReadersUrl"
+	value='controller?command=listReaders' />
+
+<c:url var="controllerListCatalogUrl"
+	value='controller?command=listCatalog' />
+
+<c:url var="controllerListPersonalAreaUrl"
+	value='controller?command=listPersonalArea' />
+
+<c:url var="controllerViewSettingsUrl"
+	value='controller?command=viewSettings' />
+
+<c:url var="controllerLogoutUrl" 
+	value='controller?command=logout' />
+
+<c:url var="controllerListReadersRequestsUrl"
+	value='controller?command=listReadersRequests' />
+	
+<c:url var="controllerSignUpUrl"
+	value='controller?command=signUp' />
+	
+<c:url var="aboutURL" value="about.jsp"/>
+
+<c:url var="loginURL" value="login"/>
+
+<c:url var="changeLocaleRu" value="changeLocale.jsp?locale=ru"/>
+
+<c:url var="changeLocaleEn" value="changeLocale.jsp?locale=en"/>
+
+<fmt:message key="about.title" var="aboutTitle"/>
+
+<tr>
+	<td id="header">
+		<c:if test="${not empty user}">
+			<div id="leftHeader">
+				<c:choose>
+					<c:when test="${userRole.name == 'admin' }">
+						<a href="${controllerListAdminCatalogUrl}">
+							<fmt:message key="header.allBooks" />
+						</a> 
+						&nbsp;
+						<a href="${controllerListLibrariansUrl}">
+							<fmt:message key="header.allLibrarians" />
+						</a> 
+						&nbsp;
+						<a href="${controllerListReadersUrl}">
+							<fmt:message key="header.allReaders" />
+						</a> 
+						&nbsp;
+					</c:when>
+					<c:when test="${userRole.name == 'librarian'}">
+						<a href="${controllerListReadersRequestsUrl}">
+						 	<fmt:message key="header.readersRequests" />
+						</a> 
+						&nbsp;
+					</c:when>
+					<c:when test="${userRole.name == 'reader'}">
+						<a href="${controllerListCatalogUrl }"> 
+							<fmt:message key="header.catalog" />
+						</a> 
+						&nbsp;
+						<a href="${controllerListPersonalAreaUrl}">
+							<fmt:message key="header.personalArea" />
+						</a> 
+						&nbsp;
+					</c:when>
+				</c:choose>
+				<a href="${controllerViewSettingsUrl}">
+				 	<fmt:message key="header.settings" />
+				</a> 
+				&nbsp;
+				<a href="${aboutURL}">
+					<fmt:message key="header.about" />
+				</a>
+			</div>
+			<div id="rightHeader">
+				<c:if test="${title eq  aboutTitle}" >
+					<a href="#" id="cubeDisable">
+						<fmt:message key="about.disableCube" />
+					</a>
+					&nbsp;
+				</c:if>
+				<a class="i18nImg" href="${changeLocaleRu}">
+					<img src="image/ru.png" alt="ru">
+				</a>
+				<a class="i18nImg" href="${changeLocaleEn}">
+					<img src="image/en.png" alt="en">
+				</a>
+				<c:out value="${user.firstName} ${user.lastName}" />
+				<c:if test="${not empty userRole}">
+					<c:out value="(${userRole.name})" />
+				</c:if>
+				<a href="${controllerLogoutUrl}">
+				 	<fmt:message key="header.logout" />
+				</a>
+			</div>
+		</c:if> 
+		<c:if test="${empty user}">
+			<div id="leftHeader">
+				<a href="${controllerListCatalogUrl}">
+					<fmt:message key="login.tryWithoutRegistration" />
+				</a>
+				&nbsp;
+				<a href="${aboutURL}">
+					<fmt:message key="header.about" />
+				</a>
+			</div>
+			<div id="rightHeader">
+				<c:if test="${title eq  aboutTitle}" >
+					<a href="#" id="cubeDisable">
+						<fmt:message key="about.disableCube" />
+					</a>
+					&nbsp;
+				</c:if>
+				<a class="i18nImg" href="${changeLocaleRu}">
+					<img src="image/ru.png" alt="ru">
+				</a>
+				<a class="i18nImg" href="${changeLocaleEn}">
+					<img src="image/en.png" alt="en">
+				</a>
+				&nbsp;
+				<a href="${controllerSignUpUrl}">
+					<fmt:message key="login.signUp" />
+				</a>
+				&nbsp;
+				<a href="${loginURL}">
+					<fmt:message key="header.login" />
+				</a>
+			</div>
+		</c:if>
+	</td>
+</tr>
+

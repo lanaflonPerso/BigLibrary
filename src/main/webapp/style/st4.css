@@ -1,0 +1,430 @@
+/***************************************************************
+CSS for all JSP pages
+***************************************************************/
+* {
+	color: #0d47a1;
+}
+
+.strong {
+	font-weight: bold;
+}
+
+body {
+	margin: 0;
+}
+
+fieldset {
+	border: #0d47a1 1px ridge;
+	border-radius: 4px;
+}
+
+table {
+	text-align: center;
+	border-collapse: separate;
+	border-spacing: 0;
+	cellspacing: 0;
+}
+
+thead {
+	border-bottom: 2px solid #0d47a1;
+}
+
+th {
+	font-size: 20px;
+}
+
+.table td {
+	border-right: 1px solid #0d47a1;
+	border-bottom: 1px solid #0d47a1;
+	padding: 2px;
+}
+
+.table td:first-child {
+	border-left: 1px solid #0d47a1;
+}
+
+.table thead tr:nth-child(2) td {
+	border-top: 1px solid #0d47a1;
+}
+
+sup {
+	color: #f50057;
+}
+
+ul {
+	text-align: left;
+}
+
+#header, #footer, .content {
+	border: 0px solid;
+}
+
+.table tbody tr:last-child td:first-child {
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.table tbody tr:last-child td:last-child {
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.table thead tr:nth-child(2) td:first-child {
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	border-top-left-radius: 5px;
+}
+
+.table thead tr:nth-child(2) td:last-child {
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-right-radius: 5px;
+}
+/***************************************************************
+Style of the main table
+***************************************************************/
+#main-container {
+	width: 100%;
+	height: 100%;
+}
+
+/***************************************************************
+Header style (TD tag in the first top row)
+***************************************************************/
+#header {
+	background: rgb(32, 80, 129);
+	padding: 0px;
+}
+
+/***************************************************************
+Style for the left located head menu (DIV tag at left)
+***************************************************************/
+#leftHeader {
+	background: rgb(32, 80, 129);
+	float: left;
+	margin-left: 10px;
+	padding: 2px;
+	color: white;
+}
+
+/***************************************************************
+Style for the right located head menu (DIV tag at right)
+***************************************************************/
+#rightHeader {
+	background: rgb(32, 80, 129);
+	float: right;
+	text-align: right;
+	margin-right: 10px;
+	padding: 2px;
+	color: white;
+}
+
+/***************************************************************
+Content styles (TD tag in the main middle row)
+***************************************************************/
+.content {
+	height: 100%;
+	background: rgb(240, 247, 252);
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	text-align: left;
+	vertical-align: top;
+}
+
+/***************************************************************
+Footer style (TD tag in the last bottom row)
+***************************************************************/
+#footer {
+	text-align: center;
+	background: rgb(32, 80, 129);
+	color: white;
+}
+
+/***************************************************************
+Style for the ERROR message
+***************************************************************/
+.error {
+	font-size: large;
+	color: rgb(204, 0, 0);
+}
+
+/***************************************************************
+Miscellaneous
+***************************************************************/
+.center {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.noborder {
+	border: 2px solid red;
+}
+
+/***************************************************************
+Login form (login.jsp)
+***************************************************************/
+#login_form>fieldset {
+	display: inline;
+}
+
+#login_form>input[type=submit] {
+	margin-top: 5px;
+}
+
+#forgotPassword {
+	text-decoration: none;
+	color: #0d47a1;
+}
+
+#forgotPassword:hover {
+	color: #0d47a1;
+	text-decoration: underline;
+}
+
+#login_container {
+	width: 500px;
+	margin: 0 auto;
+}
+/***************************************************************
+Sign up form (signUpForm.jsp)
+***************************************************************/
+#sign_up_form>table {
+	display: inline;
+}
+
+#sign_up_form td {
+	border: 0px;
+}
+
+.message {
+	color: #F39B00;
+	font-weight: 550;
+	text-align: center;
+}
+
+#captcha_image {
+	border: 1px solid #0d47a1;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+/***************************************************************
+Modify book form (modify_book_form.jsp)
+***************************************************************/
+#modify_book_table input {
+	text-align: center;
+}
+
+#modify_book_table {
+	margin-top: 5px;
+	width: 100%;
+}
+
+#modify_book_table thead {
+	text-align: center;
+}
+
+#modify_book_table td:last-child {
+	text-align: center;
+}
+/***************************************************************
+Settings form (settings.jsp)
+***************************************************************/
+#settings_form {
+	width: 500px;
+	margin: 0 auto;
+}
+
+#settings_form>table {
+	width: 100%;
+}
+
+#settings_form>div>p {
+	font-size: 17px;
+	margin-top: 5px;
+	margin-bottom: 2px;
+}
+
+#settings_form>input[type=submit] {
+	margin-top: 10px;
+}
+
+/***************************************************************
+List menu table (list_catalog.jsp)
+***************************************************************/
+#list_catalog_table {
+	margin-top: 5px;
+	width: 100%;
+}
+
+#list_catalog_table thead {
+	text-align: center;
+}
+
+#list_catalog_table td:last-child {
+	text-align: center;
+}
+
+.content>#catalog_list_div {
+	width: 800px;
+	margin: 0 auto;
+}
+/***************************************************************
+List order table (list_order.jsp)
+***************************************************************/
+#list_order_table>thead>tr {
+	text-align: center;
+}
+
+#list_order_table td+td+td {
+	text-align: center;
+}
+
+#list_order_table>tbody td+td+td+td {
+	text-align: left;
+}
+
+/***************************************************************
+Make order form (list_menu.jsp)
+***************************************************************/
+#make_order {
+	margin-top: 5px;
+}
+
+/***************************************************************
+	i18n images
+***************************************************************/
+.i18nImg {
+	text-decoration: none;
+}
+/***************************************************************
+	check_password.jsp
+***************************************************************/
+#check_password_form {
+	padding-top: 200px;
+	width: 400px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#check_password_form>fieldset {
+	display: inline;
+}
+
+#check_password_form>input[type=submit] {
+	margin-top: 5px;
+	display: inline;
+}
+/***************************************************************
+	About (about.jsp)
+***************************************************************/
+#aboutDiv {
+	width: 550px;
+	margin: 0 auto;
+}
+
+#aboutDiv table {
+	width: 100%;
+}
+/***************************************************************
+	General
+***************************************************************/
+A:visited {
+	color: white;;
+}
+
+A {
+	color: white;
+}
+
+A:hover {
+	color: white;
+}
+
+/***************************************************************
+	Cube (about.jsp)
+***************************************************************/
+.side, .container {
+	width: 10em;
+	height: 10em;
+}
+
+.container {
+	margin: 5em auto 0;
+	transform-style: preserve-3d;
+	animation: rotate 10s infinite linear;
+}
+
+.container:before, .container:after {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 10em;
+	height: 10em;
+}
+
+.container:before {
+	transform: rotateX(90deg);
+}
+
+.container:after {
+	transform: rotatey(90deg);
+}
+
+.side {
+	position: absolute;
+	width: 10em;
+	height: 10em;
+	border: 2px solid white;
+	opacity: .9;
+}
+
+.back {
+	transform: translateZ(-5em);
+	background: #6790D0;
+}
+
+.left {
+	transform: translateX(-5em) rotateY(90deg);
+	background: #F9C770;
+}
+
+.right {
+	transform: translateX(5em) rotateY(90deg);
+	background: #5FB1CC;
+}
+
+.top {
+	transform: translateY(-5em) rotateX(90deg);
+	background: #F9DE70;
+}
+
+.bottom {
+	transform: translateY(5em) rotateX(90deg);
+	background: #7D6CD4;
+}
+
+.front {
+	transform: translateZ(5em);
+	background: #6790D0;
+}
+
+@keyframes rotate { 100% {
+	transform: rotatex(360deg) rotateY(360deg) rotateZ(360deg);
+}
+
+}
+.cubeImg {
+	width: 100px;
+}
+.container .text {
+	width: 10em;
+	height:  5em;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	color: #FFFFFF;
+	font-size:2em;
+}

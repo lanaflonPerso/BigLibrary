@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	version="2.1">
+	<tlib-version>1.0</tlib-version>
+	<short-name>et</short-name>
+	<uri>/WEB-INF/tags/extraTags</uri>
+	<tag>
+		<description>Prints user's penalty</description>
+		<name>printPenalty</name>
+		<tag-class>ua.khai.slynko.Library.tag.PrintPenalty</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>penaltyDate</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>penaltySize</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>Change user's locale</description>
+		<name>setUserLocale</name>
+		<tag-class>ua.khai.slynko.Library.tag.ChangeUserLocale</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>locale</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag-file>
+		<name>userDetails</name>
+		<path>/WEB-INF/tags/userDetails.tag</path>
+	</tag-file>
+</taglib>
