@@ -1,4 +1,6 @@
-What you can find here: 
+# BigLibrary
+
+Technologies used: 
 
 - Servlets, JSP, JSTL
 - JUnit, LOG4J, DBCP
