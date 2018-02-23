@@ -10,7 +10,7 @@ import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
-import ua.khai.slynko.library.validation.model.AddBookPage;
+import ua.khai.slynko.library.validation.model.BookForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
 /**
@@ -20,13 +20,11 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class AddBookCommand extends Command {
 
-    private static final long serialVersionUID = -3071536593627692473L;
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, AppException {
         if (!isInputDataValid(request)) {
-            return Path.PAGE_ADD_BOOK_FORM;
+            return Path.PAGE_ADD_BOOK;
         } else {
             DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
             request.getSession().setAttribute("bookAddIsSuccessful", true);
@@ -36,12 +34,12 @@ public class AddBookCommand extends Command {
     }
 
     private boolean isInputDataValid(HttpServletRequest request) throws IOException, ServletException, AppException {
-        return buildAddBookPage(request)
+        return buildAddBookForm(request)
                 .validateAndPrefillRequestWithErrors(request);
     }
 
-    private AddBookPage buildAddBookPage(HttpServletRequest request) {
-        return new AddBookPage(
+    private BookForm buildAddBookForm(HttpServletRequest request) {
+        return new BookForm(
                 request.getParameter("bookTitle"), request.getParameter("edition"),
                 request.getParameter("author"), request.getParameter("publicationYear"),
                 request.getParameter("instancesNumber"));

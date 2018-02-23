@@ -44,7 +44,7 @@ public class ListAdminCatalogCommand extends Command {
 		// check if action is add book
 		if (addBook != null && addBook.equals("true")) {
 			LOG.trace("Requested item id array --> " + itemId);
-			address = Path.PAGE_ADD_BOOK_FORM;
+			address = Path.PAGE_ADD_BOOK;
 			LOG.trace("Forward set to --> " + address);
 		} else if (itemId != null) {
 			// obtain catalog items list from session
@@ -57,7 +57,7 @@ public class ListAdminCatalogCommand extends Command {
 				}
 			}
 			// update address
-			address = Path.PAGE_MODIFY_BOOK_FORM;
+			address = Path.PAGE_MODIFY_BOOK;
 			LOG.trace("Forward set to --> " + address);
 		} else {
 			// get catalog items list

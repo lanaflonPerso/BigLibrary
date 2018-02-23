@@ -21,9 +21,9 @@ public final class Path {
 	public static final String PAGE_LIST_USERS = "/WEB-INF/jsp/admin/list_users.jsp";
 	public static final String PAGE_LIST_ADMIN_CATALOG = "/WEB-INF/jsp/admin/list_admin_catalog.jsp";
 	public static final String PAGE_USER_DETAILS = "/WEB-INF/jsp/admin/user_details.jsp";
-	public static final String PAGE_MODIFY_BOOK_FORM = "/WEB-INF/jsp/admin/modify_book_form.jsp";
+	public static final String PAGE_MODIFY_BOOK = "/WEB-INF/jsp/admin/modify_book_form.jsp";
 	public static final String PAGE_ADD_LIBRARIAN = "/WEB-INF/jsp/admin/add_librarian.jsp";
-	public static final String PAGE_ADD_BOOK_FORM = "/WEB-INF/jsp/admin/add_book_form.jsp";
+	public static final String PAGE_ADD_BOOK = "/WEB-INF/jsp/admin/add_book_form.jsp";
 	public static final String PAGE_SETTINGS = "/WEB-INF/jsp/settings.jsp";
 	public static final String PAGE_SIGN_UP = "/WEB-INF/jsp/signUp/signUpForm.jsp";
 	public static final String PAGE_UPDATE_PROFILE = "/WEB-INF/jsp/update_profile.jsp";

@@ -9,14 +9,14 @@ import java.util.ResourceBundle;
 
 import static ua.khai.slynko.library.constant.Constants.MAX_STRING_LENGTH;
 
-public class AddBookPage {
+public class BookForm {
     private String title;
     private String edition;
     private String author;
     private String publicationYear;
     private String instancesNumber;
 
-    public AddBookPage(String title, String edition, String author, String publicationYear, String instancesNumber) {
+    public BookForm(String title, String edition, String author, String publicationYear, String instancesNumber) {
         this.title = title;
         this.edition = edition;
         this.author = author;
