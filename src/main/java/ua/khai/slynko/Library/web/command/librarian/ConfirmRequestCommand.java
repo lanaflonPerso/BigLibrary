@@ -26,6 +26,8 @@ import ua.khai.slynko.Library.db.bean.CatalogItemRequestBean;
 import ua.khai.slynko.Library.exception.AppException;
 import ua.khai.slynko.Library.web.abstractCommand.Command;
 
+import static ua.khai.slynko.Library.constant.Constants.PATTERN_NUMBER;
+
 /**
  * Confirm request command.
  * 
@@ -137,10 +139,9 @@ public class ConfirmRequestCommand extends Command {
 		String penaltySize = request.getParameter("penaltySize");
 
 		Pattern dateToRegexp = Pattern.compile("^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$");
-		Pattern penaltySizeRegexp = Pattern.compile("^[0-9]+$");
 
 		Matcher dateToMatcher = dateToRegexp.matcher(dateTo);
-		Matcher penaltySizeMatcher = penaltySizeRegexp.matcher(penaltySize);
+		Matcher penaltySizeMatcher = PATTERN_NUMBER.matcher(penaltySize);
 
 		// obtain resource bundle by current locale
 		String currentLocale = (String) session.getAttribute("currentLocale");

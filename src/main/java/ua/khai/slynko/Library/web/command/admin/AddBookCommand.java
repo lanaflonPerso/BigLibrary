@@ -17,6 +17,8 @@ import ua.khai.slynko.Library.db.entity.CatalogItem;
 import ua.khai.slynko.Library.exception.AppException;
 import ua.khai.slynko.Library.web.abstractCommand.Command;
 
+import static ua.khai.slynko.Library.constant.Constants.PATTERN_NUMBER;
+
 /**
  * Login command.
  * 
@@ -51,7 +53,7 @@ public class AddBookCommand extends Command {
 	}
 
 	private boolean inputDataIsValid(HttpServletRequest request) throws IOException, ServletException, AppException {
-		final Pattern PATTERN_NUMBER = Pattern.compile("^[0-9]+$");
+
 
 		boolean isValid = true;
 		String title = request.getParameter("bookTitle");

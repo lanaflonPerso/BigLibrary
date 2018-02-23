@@ -20,6 +20,8 @@ import ua.khai.slynko.Library.db.entity.CatalogItem;
 import ua.khai.slynko.Library.exception.AppException;
 import ua.khai.slynko.Library.web.abstractCommand.Command;
 
+import static ua.khai.slynko.Library.constant.Constants.PATTERN_NUMBER;
+
 /**
  * Update book command.
  * 
@@ -102,12 +104,10 @@ public class UpdateBookCommand extends Command {
 		String instancesNumber = request.getParameter("instancesNumber");
 		LOG.trace("instancesNumber --> " + instancesNumber);
 
-		Pattern numbers = Pattern.compile("^[0-9]+$");
-		
 		Calendar calendar = Calendar.getInstance();
 		
-		Matcher publicationYearMatcher = numbers.matcher(publicationYear);
-		Matcher instancesNumberrMatcher = numbers.matcher(instancesNumber);
+		Matcher publicationYearMatcher = PATTERN_NUMBER.matcher(publicationYear);
+		Matcher instancesNumberrMatcher = PATTERN_NUMBER.matcher(instancesNumber);
 		
 		// obtain resource bundle
 		String currentLocale = (String) request.getSession().getAttribute("currentLocale");
