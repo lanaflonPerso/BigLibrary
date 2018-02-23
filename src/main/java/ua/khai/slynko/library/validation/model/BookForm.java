@@ -40,7 +40,7 @@ public class BookForm {
             request.setAttribute("titleMessage", rb.getString("modifyBook.titleIsTooLong"));
             isValid = false;
         } else {
-            request.setAttribute("bookTitle", title);
+            request.setAttribute("title", title); //bookTitle problem should be fixed
         }
         if (StringUtils.isEmpty(author)) {
             request.setAttribute("authorMessage", rb.getString("modifyBook.authorIsEmpty"));

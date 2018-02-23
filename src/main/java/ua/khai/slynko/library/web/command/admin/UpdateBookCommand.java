@@ -54,13 +54,13 @@ public class UpdateBookCommand extends Command {
 
 	private BookForm buildAddBookForm(HttpServletRequest request) {
 		return new BookForm(
-				request.getParameter("bookTitle"), request.getParameter("edition"),
+				request.getParameter("title"), request.getParameter("edition"),
 				request.getParameter("author"), request.getParameter("publicationYear"),
 				request.getParameter("instancesNumber"));
 	}
 
 	private CatalogItem updateCatalogItem(HttpServletRequest request, CatalogItem catalogItem) {
-		catalogItem.setTitle(request.getParameter("bookTitle"));
+		catalogItem.setTitle(request.getParameter("title"));
 		catalogItem.setAuthor(request.getParameter("author"));
 		catalogItem.setEdition(request.getParameter("edition"));
 		catalogItem.setPublicationYear(Integer.parseInt(request.getParameter("publicationYear")));
