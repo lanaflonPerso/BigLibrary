@@ -2,7 +2,7 @@
 Header (top area). 
 ===========================================================================--%>
 
-<%@ page import="ua.khai.slynko.Library.db.Role"%>
+<%@ page import="ua.khai.slynko.library.db.Role"%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 

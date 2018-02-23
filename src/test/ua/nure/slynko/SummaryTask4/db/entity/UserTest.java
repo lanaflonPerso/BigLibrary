@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.entity.User;
+import ua.khai.slynko.library.db.entity.User;
 
 public class UserTest {
 	private final User user = new User();

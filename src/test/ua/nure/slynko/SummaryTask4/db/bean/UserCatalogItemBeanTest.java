@@ -9,7 +9,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.bean.UserCatalogItemBean;
+import ua.khai.slynko.library.db.bean.UserCatalogItemBean;
 
 public class UserCatalogItemBeanTest {
 	private final UserCatalogItemBean bean = new UserCatalogItemBean();

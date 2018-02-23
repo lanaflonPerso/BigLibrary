@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.security.Password;
+import ua.khai.slynko.library.security.Password;
 
 public class PasswordTest {
 

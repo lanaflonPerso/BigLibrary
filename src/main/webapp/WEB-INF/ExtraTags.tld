@@ -8,7 +8,7 @@
 	<tag>
 		<description>Prints user's penalty</description>
 		<name>printPenalty</name>
-		<tag-class>ua.khai.slynko.Library.tag.PrintPenalty</tag-class>
+		<tag-class>ua.khai.slynko.library.tag.PrintPenalty</tag-class>
 		<body-content>scriptless</body-content>
 		<attribute>
 			<name>penaltyDate</name>
@@ -24,7 +24,7 @@
 	<tag>
 		<description>Change user's locale</description>
 		<name>setUserLocale</name>
-		<tag-class>ua.khai.slynko.Library.tag.ChangeUserLocale</tag-class>
+		<tag-class>ua.khai.slynko.library.tag.ChangeUserLocale</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>locale</name>

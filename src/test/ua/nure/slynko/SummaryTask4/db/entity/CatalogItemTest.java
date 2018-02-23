@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.entity.CatalogItem;
+import ua.khai.slynko.library.db.entity.CatalogItem;
 
 public class CatalogItemTest {
 	private final CatalogItem catalogItem = new CatalogItem();

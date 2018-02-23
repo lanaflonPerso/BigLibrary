@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.Status;
+import ua.khai.slynko.library.db.Status;
 
 public class StatusTest {
 	private final Status status = Status.LIBRARY_CARD;

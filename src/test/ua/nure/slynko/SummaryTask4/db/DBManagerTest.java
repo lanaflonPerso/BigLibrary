@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.exception.DBException;
+import ua.khai.slynko.library.exception.DBException;
 
 public class DBManagerTest {
 	private static final Logger LOG = Logger.getLogger(DBManagerTest.class);

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.bean.CatalogItemRequestBean;
+import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
 
 public class CatalogItemRequestBeanTest {
 	private final CatalogItemRequestBean bean = new CatalogItemRequestBean();

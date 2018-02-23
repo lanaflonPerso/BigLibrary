@@ -2,7 +2,7 @@ package ua.nure.slynko.SummaryTask4.exception;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.exception.AppException;
+import ua.khai.slynko.library.exception.AppException;
 
 public class AppExceptionTest {
 

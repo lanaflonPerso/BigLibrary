@@ -2,7 +2,7 @@ package ua.nure.slynko.SummaryTask4.exception;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.exception.DBException;
+import ua.khai.slynko.library.exception.DBException;
 
 public class DBExceptionTest {
 

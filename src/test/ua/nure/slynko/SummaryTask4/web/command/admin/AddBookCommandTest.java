@@ -19,8 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.exception.AppException;
-import ua.khai.slynko.Library.web.command.admin.AddBookCommand;
+import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.web.command.admin.AddBookCommand;
 
 
 public class AddBookCommandTest {

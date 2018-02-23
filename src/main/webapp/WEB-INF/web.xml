@@ -8,7 +8,7 @@
   </welcome-file-list>
   <servlet>
     <servlet-name>Controller</servlet-name>
-    <servlet-class>ua.khai.slynko.Library.web.Controller</servlet-class>
+    <servlet-class>ua.khai.slynko.library.web.Controller</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Controller</servlet-name>
@@ -32,7 +32,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>MailServlet</servlet-name>
-    <servlet-class>ua.khai.slynko.Library.mail.MailServlet</servlet-class>
+    <servlet-class>ua.khai.slynko.library.mail.MailServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MailServlet</servlet-name>
@@ -56,7 +56,7 @@
   </servlet-mapping>
   <filter>
     <filter-name>EncodingFilter</filter-name>
-    <filter-class>ua.khai.slynko.Library.web.filter.EncodingFilter</filter-class>
+    <filter-class>ua.khai.slynko.library.web.filter.EncodingFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -69,7 +69,7 @@
   </filter-mapping>
   <filter>
     <filter-name>AlreadyLoggedInFilter</filter-name>
-    <filter-class>ua.khai.slynko.Library.web.filter.AlreadyLoggedInFilter</filter-class>
+    <filter-class>ua.khai.slynko.library.web.filter.AlreadyLoggedInFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>AlreadyLoggedInFilter</filter-name>
@@ -80,7 +80,7 @@
   </filter-mapping>
   <filter>
     <filter-name>DoLogoutFilter</filter-name>
-    <filter-class>ua.khai.slynko.Library.web.filter.DoLogoutFilter</filter-class>
+    <filter-class>ua.khai.slynko.library.web.filter.DoLogoutFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>DoLogoutFilter</filter-name>
@@ -89,7 +89,7 @@
   
   <filter>
     <filter-name>CommandAccessFilter</filter-name>
-    <filter-class>ua.khai.slynko.Library.web.filter.CommandAccessFilter</filter-class>
+    <filter-class>ua.khai.slynko.library.web.filter.CommandAccessFilter</filter-class>
     <init-param>
       <param-name>admin</param-name>
       <param-value>listAdminCatalog listLibrarians listReaders updateBook addBook blockUnblockUser addLibrarian</param-value>
@@ -116,7 +116,7 @@
     <servlet-name>Controller</servlet-name>
   </filter-mapping>
   <listener>
-    <listener-class>ua.khai.slynko.Library.web.listener.ContextListener</listener-class>
+    <listener-class>ua.khai.slynko.library.web.listener.ContextListener</listener-class>
   </listener>
   <error-page>
     <exception-type>java.lang.Throwable</exception-type>
@@ -139,6 +139,6 @@
     <param-value>/WEB-INF/locales.properties</param-value>
   </context-param>
   <listener>
-    <listener-class>ua.khai.slynko.Library.web.listener.ContextListener</listener-class>
+    <listener-class>ua.khai.slynko.library.web.listener.ContextListener</listener-class>
   </listener>
 </web-app>

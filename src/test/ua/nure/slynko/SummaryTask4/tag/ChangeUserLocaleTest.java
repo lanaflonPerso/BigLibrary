@@ -4,7 +4,7 @@ import javax.servlet.jsp.JspException;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.tag.ChangeUserLocale;
+import ua.khai.slynko.library.tag.ChangeUserLocale;
 
 public class ChangeUserLocaleTest {
 	private final ChangeUserLocale cul = new ChangeUserLocale();

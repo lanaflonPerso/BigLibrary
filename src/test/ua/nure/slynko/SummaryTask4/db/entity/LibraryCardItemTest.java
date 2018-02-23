@@ -9,7 +9,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.entity.LibraryCardItem;
+import ua.khai.slynko.library.db.entity.LibraryCardItem;
 
 public class LibraryCardItemTest {
 	private final LibraryCardItem lci = new LibraryCardItem();

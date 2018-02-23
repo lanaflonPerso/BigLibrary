@@ -1,7 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <%@ attribute name="user"
-	type="ua.khai.slynko.Library.db.entity.User"%>
+	type="ua.khai.slynko.library.db.entity.User"%>
 
 <table id="settings_user_details" class="table">
 	<thead>

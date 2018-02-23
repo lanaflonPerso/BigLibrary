@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.entity.LibraryCard;
+import ua.khai.slynko.library.db.entity.LibraryCard;
 
 public class LibraryCardTest {
 	private final LibraryCard libraryCard = new LibraryCard();

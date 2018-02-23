@@ -2,7 +2,7 @@ package ua.nure.slynko.SummaryTask4.db;
 
 import org.junit.Test;
 
-import ua.khai.slynko.Library.db.Fields;
+import ua.khai.slynko.library.db.Fields;
 
 public class FieldsTest {
 
