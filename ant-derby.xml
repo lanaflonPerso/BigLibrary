@@ -2,7 +2,8 @@
 <!--
  Derby home (we use the internal JavaDB of JDK (= Apache Derby) 
 -->
-	<property name="derby.home" value="C:\Program Files\Java\jdk1.8.0_101\db" />
+	<property environment="env"/>
+	<property name="derby.home" value="${env.JAVA_HOME}/db" />
 	<!--  Derby libraries  -->
 	<path id="derby.classpath">
 		<fileset dir="${derby.home}/lib">
