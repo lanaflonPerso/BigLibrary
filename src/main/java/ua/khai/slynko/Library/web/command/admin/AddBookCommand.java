@@ -33,17 +33,21 @@ public class AddBookCommand extends Command {
 		if (!inputDataIsValid(request)) {
 			return Path.PAGE_ADD_BOOK_FORM;
 		} else {
-			CatalogItem catalogItem = new CatalogItem();
-			catalogItem.setTitle(request.getParameter("bookTitle"));
-			catalogItem.setAuthor(request.getParameter("author"));
-			catalogItem.setEdition(request.getParameter("edition"));
-			catalogItem.setPublicationYear(Integer.parseInt(request.getParameter("publicationYear")));
-			catalogItem.setInstancesNumber(Integer.parseInt(request.getParameter("instancesNumber")));
-			DBManager.getInstance().createCatalogItem(catalogItem);
+			DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
 			request.getSession().setAttribute("bookAddIsSuccessful", true);
 			request.setAttribute("sendRedirect", true);
 			return Path.PAGE_HOME_REDERECT;
 		}
+	}
+
+	private CatalogItem buildCatalogItem(HttpServletRequest request) {
+		CatalogItem catalogItem = new CatalogItem();
+		catalogItem.setTitle(request.getParameter("bookTitle"));
+		catalogItem.setAuthor(request.getParameter("author"));
+		catalogItem.setEdition(request.getParameter("edition"));
+		catalogItem.setPublicationYear(Integer.parseInt(request.getParameter("publicationYear")));
+		catalogItem.setInstancesNumber(Integer.parseInt(request.getParameter("instancesNumber")));
+		return catalogItem;
 	}
 
 	private boolean inputDataIsValid(HttpServletRequest request) throws IOException, ServletException, AppException {
