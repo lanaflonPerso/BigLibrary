@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static ua.khai.slynko.library.constant.Constants.MAX_STRING_LENGTH;
+import static ua.khai.slynko.library.constant.Constants.STRING_MAX_LENGTH;
 
 public class BookForm {
     private String title;
@@ -36,7 +36,7 @@ public class BookForm {
         if (StringUtils.isEmpty(title)) {
             request.setAttribute("titleMessage", rb.getString("modifyBook.titleIsEmpty"));
             isValid = false;
-        } else if (title.length() > MAX_STRING_LENGTH) {
+        } else if (title.length() > STRING_MAX_LENGTH) {
             request.setAttribute("titleMessage", rb.getString("modifyBook.titleIsTooLong"));
             isValid = false;
         } else {
@@ -45,7 +45,7 @@ public class BookForm {
         if (StringUtils.isEmpty(author)) {
             request.setAttribute("authorMessage", rb.getString("modifyBook.authorIsEmpty"));
             isValid = false;
-        } else if (author.length() > MAX_STRING_LENGTH) {
+        } else if (author.length() > STRING_MAX_LENGTH) {
             request.setAttribute("authorMessage", rb.getString("modifyBook.authorIsTooLong"));
             isValid = false;
         } else {
@@ -54,7 +54,7 @@ public class BookForm {
         if (StringUtils.isEmpty(edition)) {
             request.setAttribute("editionMessage", rb.getString("modifyBook.editionIsEmpty"));
             isValid = false;
-        } else if (edition.length() > MAX_STRING_LENGTH) {
+        } else if (edition.length() > STRING_MAX_LENGTH) {
             request.setAttribute("editionMessage", rb.getString("modifyBook.editionIsTooLong"));
             isValid = false;
         } else {
