@@ -39,9 +39,6 @@
 										<c:if test="${not empty passwordMessage}">
 											<li>${passwordMessage}</li>
 										</c:if>
-										<c:if test="${not empty captchaMessage}">
-											<li>${captchaMessage}</li>
-										</c:if>
 									</ul>
 								</div>
 							</td>
@@ -108,14 +105,6 @@
 									</legend>
 									<input name="password2" type="password" /><br />
 								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<td align=center colspan=2 >
-								<img id="captcha_image" src="/Library_SLYNKO/captchaImg" alt="captcha image" width="200" height="50"/>						
-								<br/>
-								<img src="image/refresh.png" onclick="reloadCaptcha()" />
-								<input name="capthaAnswer" />
 							</td>
 						</tr>
 						<tr>

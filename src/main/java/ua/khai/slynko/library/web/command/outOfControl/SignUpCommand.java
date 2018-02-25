@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import nl.captcha.Captcha;
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
@@ -118,8 +117,6 @@ public class SignUpCommand extends Command {
 		HttpSession session = request.getSession();
 
 		// obtain captcha from session
-		Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
-		LOG.debug("Captcha --> " + captcha);
 		String capthaAnswer = request.getParameter("capthaAnswer");
 
 		// obtain current locale for resource bundle
@@ -210,11 +207,6 @@ public class SignUpCommand extends Command {
 			isValid = false;
 		} else if (password2 == null || !password1.equals(password2)) {
 			request.setAttribute("passwordMessage", rb.getString("signup.passwordsAreNotEqual"));
-			isValid = false;
-		}
-		// captcha validation
-		if (captcha != null && (capthaAnswer == null || !captcha.isCorrect(capthaAnswer))) {
-			request.setAttribute("captchaMessage", rb.getString("signup.captchaIsNotCorrect"));
 			isValid = false;
 		}
 

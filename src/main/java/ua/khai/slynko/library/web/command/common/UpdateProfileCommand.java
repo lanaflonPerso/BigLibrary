@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import nl.captcha.Captcha;
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.User;
@@ -45,7 +44,6 @@ public class UpdateProfileCommand extends Command {
 	private static final String REQUEST_NEW_PASSWORD_1 = "newPassword1";
 	private static final String REQUEST_NEW_PASSWORD_2 = "newPassword2";
 	private static final String REQUEST_USER = "user";
-	private static final String REQUEST_CAPTCHA_ANSWER = "capthaAnswer";
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -115,7 +113,6 @@ public class UpdateProfileCommand extends Command {
 		// obtain dbManager instance
 		DBManager dbManager = DBManager.getInstance();
 		// obtain captcha from session
-		Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
 		// init values map
 		Map<String, String> valuesMap = initMap(request);
 		// obtain resource bundre
@@ -210,12 +207,6 @@ public class UpdateProfileCommand extends Command {
 			request.setAttribute("passwordMessage", rb.getString("updateProfile.newPasswordsAreNotEqual"));
 			isValid = false;
 		}
-		// captcha validation
-		if (captcha != null && (valuesMap.get(REQUEST_CAPTCHA_ANSWER) == null
-				|| !captcha.isCorrect(valuesMap.get(REQUEST_CAPTCHA_ANSWER)))) {
-			request.setAttribute("captchaMessage", rb.getString("signup.captchaIsNotCorrect"));
-			isValid = false;
-		}
 		LOG.trace("Validation end");
 		return isValid;
 	}
@@ -260,7 +251,6 @@ public class UpdateProfileCommand extends Command {
 			}
 		}
 		hashMap.put("currentPassword", user.getPassword());
-		hashMap.put(REQUEST_CAPTCHA_ANSWER, request.getParameter(REQUEST_CAPTCHA_ANSWER));
 		return hashMap;
 	}
 }

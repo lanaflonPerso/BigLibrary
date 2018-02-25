@@ -34,9 +34,8 @@ public class AddLibrarianCommand extends Command {
 		} else {
             DBManager.getInstance().createUser(buildLibrarian(request));
             request.setAttribute("sendRedirect", true);
-            HttpSession session = request.getSession();
-			session.setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
-			session.setAttribute("librarianAddIsSuccessful", true);
+			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
+			request.getSession().setAttribute("librarianAddIsSuccessful", true);
 			return Path.PAGE_LOGIN_REDERECT;
 		}
 	}

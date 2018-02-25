@@ -1,6 +1,5 @@
 package ua.khai.slynko.library.validation.model;
 
-import nl.captcha.Captcha;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.exception.DBException;
 
@@ -49,7 +48,6 @@ public class LibrarianForm {
             rb = ResourceBundle.getBundle("resources", new Locale(currentLocale));
         }
 
-        Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
         String capthaAnswer = request.getParameter("capthaAnswer");
 
         if (login == null && email == null && firstName == null && lastName == null) {
@@ -118,10 +116,6 @@ public class LibrarianForm {
             isValid = false;
         } else if (passwordConfirm == null || !password.equals(passwordConfirm)) {
             request.setAttribute("passwordMessage", rb.getString("signup.passwordsAreNotEqual"));
-            isValid = false;
-        }
-        if (captcha != null && (capthaAnswer == null || !captcha.isCorrect(capthaAnswer))) {
-            request.setAttribute("captchaMessage", rb.getString("signup.captchaIsNotCorrect"));
             isValid = false;
         }
         return isValid;
