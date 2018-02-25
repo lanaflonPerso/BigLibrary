@@ -48,8 +48,6 @@ public class LibrarianForm {
             rb = ResourceBundle.getBundle("resources", new Locale(currentLocale));
         }
 
-        String capthaAnswer = request.getParameter("capthaAnswer");
-
         if (login == null && email == null && firstName == null && lastName == null) {
             request.setAttribute("fillInMessage", rb.getString("signup.fieldsAreNotFilled"));
             isValid = false;

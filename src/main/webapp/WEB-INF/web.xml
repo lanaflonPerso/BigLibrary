@@ -38,22 +38,6 @@
     <servlet-name>MailServlet</servlet-name>
     <url-pattern>/send</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>SimpleCaptcha</servlet-name>
-    <servlet-class>nl.captcha.servlet.SimpleCaptchaServlet</servlet-class>
-    <init-param>
-      <param-name>width</param-name>
-      <param-value>200</param-value>
-    </init-param>
-    <init-param>
-      <param-name>height</param-name>
-      <param-value>70</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SimpleCaptcha</servlet-name>
-    <url-pattern>/captchaImg</url-pattern>
-  </servlet-mapping>
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>ua.khai.slynko.library.web.filter.EncodingFilter</filter-class>
