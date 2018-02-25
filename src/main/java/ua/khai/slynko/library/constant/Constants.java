@@ -12,4 +12,6 @@ public final class Constants {
     public static final int EMAIL_MIN_LENGTH = 5;
     public static final int LOGIN_MAX_LENGTH = 20;
     public static final int LOGIN_MIN_LENGTH = 3;
+
+    public static final String EMAIL_PATTERN = "^[a-zA-Z][a-zA-Z0-9\\.-]*\\@[a-zA-Z]+\\.[a-zA-Z]+$";
 }
