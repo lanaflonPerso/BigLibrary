@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
@@ -277,6 +278,20 @@ public final class DBManager {
 			close(con, pstmt, rs);
 		}
 		return itemIdsList;
+	}
+
+	public List<User> findUsers(Integer roleId, String firstName, String lastName) throws DBException	{
+		List<User> users = null;
+		if (StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName)) {
+			users = findUsersByRole(roleId);
+		} else if (StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
+			users = findUsersByRoleAndLastName(roleId, lastName);
+		} else if (!StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName)) {
+			users = findUsersByRoleAndFirstName(roleId, firstName);
+		} else if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
+			users = findUsersByRoleAndFirstNameAndLastName(roleId, firstName, lastName);
+		}
+		return users;
 	}
 
 	/**

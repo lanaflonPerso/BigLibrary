@@ -7,14 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
-import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
 /**
@@ -40,7 +37,7 @@ public class ListLibrariansCommand extends Command {
 		} else {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
-			List<User> listLibrarians = getListLibrarians(firstName, lastName);
+			List<User> listLibrarians = DBManager.getInstance().findUsers(Role.LIBRARIAN.getValue(), firstName, lastName);
 
 			if (listLibrarians == null || listLibrarians.size() == 0) {
 				request.setAttribute("noMatchesFound", true);
@@ -51,21 +48,5 @@ public class ListLibrariansCommand extends Command {
 			}
 		}
 		return address;
-	}
-
-	private List<User> getListLibrarians(String firstName, String lastName) throws DBException {
-		DBManager dbManager = DBManager.getInstance();
-		List<User> catalogItems = null;
-		Integer roleId = Role.LIBRARIAN.getValue();
-		if (StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName)) {
-			catalogItems = dbManager.findUsersByRole(roleId);
-		} else if (StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
-			catalogItems = dbManager.findUsersByRoleAndLastName(roleId, lastName);
-		} else if (!StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName)) {
-			catalogItems = dbManager.findUsersByRoleAndFirstName(roleId, firstName);
-		} else if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
-			catalogItems = dbManager.findUsersByRoleAndFirstNameAndLastName(roleId, firstName, lastName);
-		}
-		return catalogItems;
 	}
 }
