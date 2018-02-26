@@ -1,15 +1,14 @@
 package ua.khai.slynko.library.web.command.admin;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.Path;
@@ -27,106 +26,59 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class ListAdminCatalogCommand extends Command {
 
-	private static final long serialVersionUID = 7732286214029478505L;
-	private static final Logger LOG = Logger.getLogger(ListAdminCatalogCommand.class);
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, AppException {
-		LOG.debug("Command starts");
-		// obtain session
+			throws AppException {
 		HttpSession session = request.getSession();
-		// init address
 		String address = Path.PAGE_LIST_ADMIN_CATALOG;
-		// obtain request params
 		String addBook = request.getParameter("addBook");
 		String itemId = request.getParameter("itemId");
-		// check if action is add book
 		if (addBook != null && addBook.equals("true")) {
-			LOG.trace("Requested item id array --> " + itemId);
 			address = Path.PAGE_ADD_BOOK;
-			LOG.trace("Forward set to --> " + address);
 		} else if (itemId != null) {
-			// obtain catalog items list from session
 			List<CatalogItem> catalogItems = (List<CatalogItem>) session.getAttribute("catalogItems");
-			LOG.trace("Found in session catalogItems --> " + catalogItems);
-			// set requested item into session
 			for (CatalogItem catalogItem : catalogItems) {
 				if (catalogItem.getId() == Long.parseLong(itemId)) {
 					session.setAttribute("catalogItem", catalogItem);
 				}
 			}
-			// update address
 			address = Path.PAGE_MODIFY_BOOK;
-			LOG.trace("Forward set to --> " + address);
 		} else {
-			// get catalog items list
 			String author = request.getParameter("author");
-			LOG.trace("Get request parameter author --> " + author);
 			String title = request.getParameter("title");
-			LOG.trace("Get request parameter title --> " + title);
 			List<CatalogItem> catalogItems = getListCatalogItems(author, title);
-			LOG.trace("Found in DB: catalogItemsList --> " + catalogItems);
-			// set no mathches into request if item list is empty
 			if (catalogItems == null || catalogItems.size() == 0) {
 				request.setAttribute("noMatchesFound", true);
-				LOG.trace("Set request attribute noMatchesFound --> true");
 			}
-
-			// sort catalog by criteria
 			String sortCriteria = request.getParameter("sortBy");
 			sortCatalogItemsBy(catalogItems, sortCriteria);
-			LOG.trace("Catalog items sorted by --> " + sortCriteria);
-
-			// put catalog items list to the request
 			session.setAttribute("catalogItems", catalogItems);
-			LOG.trace("Set the session attribute: catalogItems --> " + catalogItems);
 		}
-
-		LOG.debug("Command finished");
 		return address;
 	}
 
 	private void sortCatalogItemsBy(List<CatalogItem> catalogItems, String criteria) {
-
 		if (criteria == null || criteria.equals("title")) {
-			Collections.sort(catalogItems, new Comparator<CatalogItem>() {
-				public int compare(CatalogItem o1, CatalogItem o2) {
-					return o1.getTitle().compareTo(o2.getTitle());
-				}
-			});
+			catalogItems.sort(Comparator.comparing(CatalogItem::getTitle));
 		} else if (criteria.equals("author")) {
-			Collections.sort(catalogItems, new Comparator<CatalogItem>() {
-				public int compare(CatalogItem o1, CatalogItem o2) {
-					return o1.getAuthor().compareTo(o2.getAuthor());
-				}
-			});
+			catalogItems.sort(Comparator.comparing(CatalogItem::getAuthor));
 		} else if (criteria.equals("edition")) {
-			Collections.sort(catalogItems, new Comparator<CatalogItem>() {
-				public int compare(CatalogItem o1, CatalogItem o2) {
-					return o1.getEdition().compareTo(o2.getEdition());
-				}
-			});
+			catalogItems.sort(Comparator.comparing(CatalogItem::getEdition));
 		} else if (criteria.equals("publicationYear")) {
-			Collections.sort(catalogItems, new Comparator<CatalogItem>() {
-				public int compare(CatalogItem o1, CatalogItem o2) {
-					return o1.getPublicationYear() - o2.getPublicationYear();
-				}
-			});
+			catalogItems.sort(Comparator.comparing(CatalogItem::getPublicationYear));
 		}
 	}
 
 	private List<CatalogItem> getListCatalogItems(String author, String title) throws DBException {
 		DBManager dbManager = DBManager.getInstance();
 		List<CatalogItem> catalogItems = null;
-
-		if ((author == null || author.equals("")) && (title == null || title.equals(""))) {
+		if (StringUtils.isEmpty(author) && StringUtils.isEmpty(title)) {
 			catalogItems = dbManager.findCatalogItems();
-		} else if ((author == null || author.equals("")) && title != null && title.length() > 0) {
+		} else if (StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
 			catalogItems = dbManager.findCatalogItemsByTitle(title);
-		} else if (author != null && author.length() > 0 && (title == null || title.equals(""))) {
+		} else if (!StringUtils.isEmpty(author) && (StringUtils.isEmpty(title))) {
 			catalogItems = dbManager.findCatalogItemsByAuthor(author);
-		} else if (author != null && author.length() > 0 && title != null && title.length() > 0) {
+		} else if (!StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
 			catalogItems = dbManager.findCatalogItemsByAuthorAndTitle(author, title);
 		}
 		return catalogItems;
