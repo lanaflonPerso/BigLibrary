@@ -1,13 +1,10 @@
 package ua.khai.slynko.library.web.command.admin;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
@@ -28,7 +25,7 @@ public class AddLibrarianCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, AppException {
+			throws AppException {
 		if (!inputDataIsValid(request)) {
 			return Path.PAGE_ADD_LIBRARIAN;
 		} else {
@@ -40,7 +37,7 @@ public class AddLibrarianCommand extends Command {
 		}
 	}
 
-	private boolean inputDataIsValid(HttpServletRequest request) throws IOException, ServletException, AppException {
+	private boolean inputDataIsValid(HttpServletRequest request) throws AppException {
 		return buildAddLibrarianForm(request)
 				.validateAndPrefillRequestWithErrors(request);
 	}

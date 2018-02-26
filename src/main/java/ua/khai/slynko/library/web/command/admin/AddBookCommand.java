@@ -1,8 +1,5 @@
 package ua.khai.slynko.library.web.command.admin;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +19,7 @@ public class AddBookCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException, AppException {
+            throws AppException {
         if (!isInputDataValid(request)) {
             return Path.PAGE_ADD_BOOK;
         } else {
@@ -33,7 +30,7 @@ public class AddBookCommand extends Command {
         }
     }
 
-    private boolean isInputDataValid(HttpServletRequest request) throws IOException, ServletException, AppException {
+    private boolean isInputDataValid(HttpServletRequest request) {
         return buildAddBookForm(request)
                 .validateAndPrefillRequestWithErrors(request);
     }

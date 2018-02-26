@@ -1,13 +1,8 @@
 package ua.khai.slynko.library.web.command.admin;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
@@ -25,7 +20,7 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
 public class UpdateBookCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, AppException {
+			throws AppException {
 		HttpSession session = request.getSession();
 		DBManager dbManager = DBManager.getInstance();
 		CatalogItem catalogItem = (CatalogItem) session.getAttribute("catalogItem");
@@ -47,7 +42,7 @@ public class UpdateBookCommand extends Command {
 		return address;
 	}
 
-	private boolean isInputDataValid(HttpServletRequest request) throws IOException, ServletException, AppException {
+	private boolean isInputDataValid(HttpServletRequest request) {
 		return buildAddBookForm(request)
 				.validateAndPrefillRequestWithErrors(request);
 	}

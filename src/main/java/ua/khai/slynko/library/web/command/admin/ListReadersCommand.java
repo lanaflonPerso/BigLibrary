@@ -25,7 +25,6 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class ListReadersCommand extends Command {
 
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws AppException {
