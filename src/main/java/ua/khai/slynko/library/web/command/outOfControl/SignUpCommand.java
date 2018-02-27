@@ -62,11 +62,7 @@ public class SignUpCommand extends Command {
 			// create and initialize
 			User user = new User();
 			user.setLogin((String) request.getParameter("login"));
-			try {
-				user.setPassword(Password.hash(request.getParameter("password1")));
-			} catch (NoSuchAlgorithmException e) {
-				throw new AppException("NoSuchAlgorithmException", e);
-			}
+			user.setPassword(Password.hash(request.getParameter("password1")));
 			user.setFirstName((String) request.getParameter("firstName"));
 			user.setLastName((String) request.getParameter("lastName"));
 			user.setEmail((String) request.getParameter("email"));

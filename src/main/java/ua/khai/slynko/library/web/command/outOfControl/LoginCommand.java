@@ -46,12 +46,7 @@ public class LoginCommand extends Command {
 		LOG.trace("Request parameter: rememberMe --> " + rememberMe);
 
 		// obtain password hash
-		String password = null;
-		try {
-			password = Password.hash(request.getParameter("password"));
-		} catch (NoSuchAlgorithmException e) {
-			throw new AppException("NoSuchAlgorithmException", e);
-		}
+		String password = Password.hash(request.getParameter("password"));
 
 		// check if login/password are not empty
 		if (login == null || password == null || login.isEmpty() || password.isEmpty()) {

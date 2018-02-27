@@ -1,10 +1,6 @@
 package ua.khai.slynko.library.web.command.outOfControl;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-
 import javax.mail.MessagingException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,7 +29,7 @@ public class ForgotPasswordCommand extends Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, AppException {
+			throws AppException {
 		LOG.debug("Command starts");
 
 		// obtain dbManager and session
@@ -78,9 +74,6 @@ public class ForgotPasswordCommand extends Command {
 				session.setAttribute("passwordRestorationIsSuccessful", true);
 			} catch (MessagingException ex) {
 				LOG.trace("Mail has not been sent. Some error with mail sending");
-				session.setAttribute("passwordRestorationIsSuccessful", false);
-			} catch (NoSuchAlgorithmException e) {
-				LOG.trace("Mail has not been sent. Some error with password hash algorithm");
 				session.setAttribute("passwordRestorationIsSuccessful", false);
 			}
 		} else {

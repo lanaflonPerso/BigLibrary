@@ -1,8 +1,5 @@
 package ua.khai.slynko.library.web.command.admin;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,14 +46,10 @@ public class AddLibrarianCommand extends Command {
 
 	}
 
-	private User buildLibrarian(HttpServletRequest request) throws AppException {
+	private User buildLibrarian(HttpServletRequest request) {
 		User librarian = new User();
 		librarian.setLogin(request.getParameter("login"));
-		try {
-			librarian.setPassword(Password.hash(request.getParameter("password1")));
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			throw new AppException("User was not created", e);
-		}
+		librarian.setPassword(Password.hash(request.getParameter("password1")));
 		librarian.setFirstName(request.getParameter("firstName"));
 		librarian.setLastName(request.getParameter("lastName"));
 		librarian.setEmail(request.getParameter("email"));
