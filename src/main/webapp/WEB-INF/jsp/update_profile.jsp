@@ -34,9 +34,6 @@
 										<c:if test="${not empty emailMessage}">
 											<li>${emailMessage}</li>
 										</c:if>
-										<c:if test="${not empty oldPasswordMessage}">
-											<li>${oldPasswordMessage}</li>
-										</c:if>
 										<c:if test="${not empty passwordMessage}">
 											<li>${passwordMessage}</li>
 										</c:if>
@@ -105,24 +102,6 @@
 										<input name="email" value="${user.email}" />
 									</c:if>
 									<br/>
-								</fieldset>
-							</td>
-						</tr>
-					<tr>
-							<td>
-								<fieldset>
-									<legend>
-										<fmt:message key="signup.oldPassword" /><sup>*</sup>
-									</legend>
-									<input name="oldPassword1" type="password" /><br />
-								</fieldset>
-							</td>
-							<td>
-								<fieldset>
-									<legend>
-										<fmt:message key="signup.confirmOldPassword" /><sup>*</sup>
-									</legend>
-									<input name="oldPassword2" type="password" /><br />
 								</fieldset>
 							</td>
 						</tr>

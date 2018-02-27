@@ -9,7 +9,7 @@ import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.security.Password;
-import ua.khai.slynko.library.validation.model.LibrarianForm;
+import ua.khai.slynko.library.validation.model.UserForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
 /**
@@ -39,8 +39,8 @@ public class AddLibrarianCommand extends Command {
 				.validateAndPrefillRequestWithErrors(request);
 	}
 
-	private LibrarianForm buildAddLibrarianForm(HttpServletRequest request) {
-		return new LibrarianForm(request.getParameter("firstName"), request.getParameter("lastName"),
+	private UserForm buildAddLibrarianForm(HttpServletRequest request) {
+		return new UserForm(request.getParameter("firstName"), request.getParameter("lastName"),
 				request.getParameter("email"), request.getParameter("login"),
 				request.getParameter("password1"), request.getParameter("password2"));
 

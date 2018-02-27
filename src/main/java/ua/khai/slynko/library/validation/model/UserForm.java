@@ -1,6 +1,7 @@
 package ua.khai.slynko.library.validation.model;
 
 import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,21 +20,22 @@ import static ua.khai.slynko.library.constant.Constants.PASSWORD_MIN_LENGTH;
 import static ua.khai.slynko.library.constant.Constants.STRING_MAX_LENGTH;
 import static ua.khai.slynko.library.constant.Constants.STRING_MIN_LENGTH;
 
-public class LibrarianForm {
+public class UserForm
+{
     private String firstName;
     private String lastName;
     private String email;
     private String login;
     private String password;
-    private String passwordConfirm;
+    private String passwordConfirmation;
 
-    public LibrarianForm(String firstName, String lastName, String email, String login, String password, String passwordConfirm) {
+    public UserForm(String firstName, String lastName, String email, String login, String password, String passwordConfirmation) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.login = login;
         this.password = password;
-        this.passwordConfirm = passwordConfirm;
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     public boolean validateAndPrefillRequestWithErrors(HttpServletRequest request) throws DBException {
@@ -41,6 +43,7 @@ public class LibrarianForm {
         Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
         HttpSession session = request.getSession();
         String currentLocale = (String) session.getAttribute("currentLocale");
+        User user = (User) request.getSession().getAttribute("user");
         ResourceBundle rb;
         if (currentLocale == null) {
             rb = ResourceBundle.getBundle("resources", Locale.getDefault());
@@ -81,7 +84,10 @@ public class LibrarianForm {
         } else if (login.contains(" ")) {
             request.setAttribute(loginMessage, rb.getString("signup.loginContainsSpace"));
             isValid = false;
-        } else if (DBManager.getInstance().findUserByLogin(login) != null) {
+        } else if (user == null && DBManager.getInstance().findUserByLogin(login) != null) {
+            request.setAttribute(loginMessage, rb.getString("signup.loginIsTaken"));
+            isValid = false;
+        } else if (user != null && DBManager.getInstance().findUserByEmailToUpdate(email, user.getId()) != null) {
             request.setAttribute(loginMessage, rb.getString("signup.loginIsTaken"));
             isValid = false;
         } else {
@@ -100,7 +106,10 @@ public class LibrarianForm {
         } else if (email.contains(" ")) {
             request.setAttribute(emailMessage, rb.getString("signup.emailContainsSpace"));
             isValid = false;
-        } else if (DBManager.getInstance().findUserByEmail(email) != null) {
+        } else if (user == null && DBManager.getInstance().findUserByEmail(email) != null) {
+            request.setAttribute(emailMessage, rb.getString("signup.emailIsTaken"));
+            isValid = false;
+        } else if (user != null && DBManager.getInstance().findUserByEmailToUpdate(email, user.getId()) != null) {
             request.setAttribute(emailMessage, rb.getString("signup.emailIsTaken"));
             isValid = false;
         } else {
@@ -112,7 +121,7 @@ public class LibrarianForm {
         } else if (password.length() > PASSWORD_MAX_LENGTH) {
             request.setAttribute("passwordMessage", rb.getString("signup.passwordTooLong"));
             isValid = false;
-        } else if (passwordConfirm == null || !password.equals(passwordConfirm)) {
+        } else if (passwordConfirmation == null || !password.equals(passwordConfirmation)) {
             request.setAttribute("passwordMessage", rb.getString("signup.passwordsAreNotEqual"));
             isValid = false;
         }
