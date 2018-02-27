@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
@@ -18,34 +16,31 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class LogoutCommand extends Command {
 
-	private static final long serialVersionUID = -2785976616686657267L;
-
-	private static final Logger LOG = Logger.getLogger(LogoutCommand.class);
-
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		LOG.debug("Command starts");
+		invalidateSession(request);
+		cleanCookies(request, response);
+		return Path.PAGE_LOGIN;
+	}
 
+	private void invalidateSession(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.invalidate();
 		}
+	}
 
-		// remove user id (remember me) from cookies
-		Cookie[] cookies = ((HttpServletRequest) request).getCookies();
+	private void cleanCookies(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
-				Cookie c = cookies[i];
-				if (c.getName().equals("userId")) {
-					c.setValue(null);
-					c.setMaxAge(0);
-					response.addCookie(c);
+				Cookie cookie = cookies[i];
+				if (cookie.getName().equals("userId")) {
+					cookie.setValue(null);
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
 				}
 			}
 		}
-
-		LOG.debug("Command finished");
-		return Path.PAGE_LOGIN;
 	}
-
 }
