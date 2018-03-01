@@ -21,6 +21,9 @@ import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
+import static ua.khai.slynko.library.constant.Constants.DATE_PATTERN;
+import static ua.khai.slynko.library.constant.Constants.TRUE;
+
 /**
  * Confirm request command.
  * 
@@ -38,13 +41,10 @@ public class ConfirmRequestCommand extends Command {
 		DBManager dbManager = DBManager.getInstance();
 		CatalogItemRequestBean catalogItemRequestBean = (CatalogItemRequestBean) session
 				.getAttribute("catalogItemRequestBean");
-		String address;
 		String confirmationType = request.getParameter("bookStatus");
-		String deleteRequest = request.getParameter("deleteRequest");
-		Long id = catalogItemRequestBean.getId();
-
-		if (deleteRequest != null && deleteRequest.equals("true")) {
-			dbManager.removeLibraryCardItemById(Collections.singletonList(id.toString()));
+		String address;
+		if (TRUE.equals(request.getParameter("deleteRequest"))) {
+			dbManager.removeLibraryCardItemById(Collections.singletonList(catalogItemRequestBean.getId().toString()));
 			request.setAttribute("sendRedirect", true);
 			request.getSession().setAttribute("requestIsDeletedSuccessfully", true);
 			address = Path.PAGE_HOME_REDERECT;
@@ -52,25 +52,18 @@ public class ConfirmRequestCommand extends Command {
 			if (!inputDataIsValid(request)) {
 				address = Path.PAGE_CONFIRM_REQUEST_FORM;
 			} else {
-				String dateToStr = request.getParameter("dateTo");
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date dateFrom = new Date();
-				Date dateTo;
-				try {
-					dateTo = sdf.parse(dateToStr);
-				} catch (ParseException e) {
-					dateTo = new Date();
-				}
+				Date dateTo = getDateTo(request);
 				Integer penaltySize = Integer.parseInt(request.getParameter("penaltySize"));
 				if (confirmationType.equals("libraryCard")) {
 					dbManager.updateCatalogItemRequestDateFromDateToPenaltySizeById(dateFrom, dateTo, penaltySize,
-							Status.LIBRARY_CARD.getValue(), id, true, catalogItemRequestBean.getUserEmail());
+							Status.LIBRARY_CARD.getValue(), catalogItemRequestBean.getId(), true, catalogItemRequestBean.getUserEmail());
 				} else if (confirmationType.equals("readingRoom")) {
 					dbManager.updateCatalogItemRequestDateFromDateToPenaltySizeById(dateFrom, dateTo, penaltySize,
-							Status.READING_ROOM.getValue(), id, false, catalogItemRequestBean.getUserEmail());
+							Status.READING_ROOM.getValue(), catalogItemRequestBean.getId(), false, catalogItemRequestBean.getUserEmail());
 				}
-				request.setAttribute("sendRedirect", true);
 				request.getSession().setAttribute("requestIsConfirmedSuccessfully", true);
+				request.setAttribute("sendRedirect", true);
 				address = Path.PAGE_HOME_REDERECT;
 			}
 		}
@@ -90,7 +83,7 @@ public class ConfirmRequestCommand extends Command {
 		String dateTo = request.getParameter(dateToLiteral);
 		String penaltySize = request.getParameter("penaltySize");
 
-		Pattern dateToRegexp = Pattern.compile("^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$");
+		Pattern dateToRegexp = Pattern.compile(DATE_PATTERN);
 
 		Matcher dateToMatcher = dateToRegexp.matcher(dateTo);
 
@@ -199,5 +192,17 @@ public class ConfirmRequestCommand extends Command {
 	 */
 	private static boolean isToday(Date date) {
 		return isSameDay(date, Calendar.getInstance().getTime());
+	}
+
+	private Date getDateTo(HttpServletRequest request) {
+		String dateToStr = request.getParameter("dateTo");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateTo;
+		try {
+			dateTo = sdf.parse(dateToStr);
+		} catch (ParseException e) {
+			dateTo = new Date();
+		}
+		return dateTo;
 	}
 }
