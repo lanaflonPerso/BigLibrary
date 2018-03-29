@@ -1,5 +1,9 @@
 package ua.khai.slynko.library.db;
 
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 /**
  * Status entity.
  * 
@@ -7,11 +11,14 @@ package ua.khai.slynko.library.db;
  * 
  */
 public enum Status {
-	READING_ROOM(0), LIBRARY_CARD(1), CLOSED(2), NOT_CONFIRMED(3);
+	READING_ROOM("readingRoom", 0), LIBRARY_CARD("libraryCard", 1), CLOSED("closed", 2)
+	, NOT_CONFIRMED("notConfirmed", 3);
 
+	private final String key;
 	private final int value;
 
-	private Status(int value) {
+	Status(String key, int value) {
+		this.key = key;
 		this.value = value;
 	}
 
@@ -19,4 +26,14 @@ public enum Status {
 		return value;
 	}
 
+	public String getKey() {
+		return key;
+	}
+
+	public static Status getByKey(String key) {
+		Optional<Status> status = Arrays.stream(values())
+				.filter(s -> s.getKey().equals(key))
+				.findFirst();
+			return status.orElseThrow(NoSuchElementException::new);
+	}
 }

@@ -55,13 +55,9 @@ public class ConfirmRequestCommand extends Command {
 				Date dateFrom = new Date();
 				Date dateTo = getDateTo(request);
 				Integer penaltySize = Integer.parseInt(request.getParameter("penaltySize"));
-				if (confirmationType.equals("libraryCard")) {
-					dbManager.updateCatalogItemRequestDateFromDateToPenaltySizeById(dateFrom, dateTo, penaltySize,
-							Status.LIBRARY_CARD.getValue(), catalogItemRequestBean.getId(), true, catalogItemRequestBean.getUserEmail());
-				} else if (confirmationType.equals("readingRoom")) {
-					dbManager.updateCatalogItemRequestDateFromDateToPenaltySizeById(dateFrom, dateTo, penaltySize,
-							Status.READING_ROOM.getValue(), catalogItemRequestBean.getId(), false, catalogItemRequestBean.getUserEmail());
-				}
+        dbManager.updateCatalogItemRequestDateFromDateToPenaltySizeById(dateFrom, dateTo, penaltySize,
+            Status.getByKey(confirmationType).getValue(), catalogItemRequestBean.getId(),
+            true, catalogItemRequestBean.getUserEmail());
 				request.getSession().setAttribute("requestIsConfirmedSuccessfully", true);
 				request.setAttribute("sendRedirect", true);
 				address = Path.PAGE_HOME_REDERECT;
@@ -75,7 +71,6 @@ public class ConfirmRequestCommand extends Command {
 		HttpSession session = request.getSession();
 		String dateToLiteral = "dateTo";
 		String confirmationType = request.getParameter("bookStatus");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		CatalogItemRequestBean catalogItemRequestBean = (CatalogItemRequestBean) session
 				.getAttribute("catalogItemRequestBean");
 		Long id = catalogItemRequestBean.getId();
@@ -103,21 +98,15 @@ public class ConfirmRequestCommand extends Command {
 			request.setAttribute("dateToMessage", rb.getString("confirmRequest.dateToIsNotCorrect"));
 			isValid = false;
 		} else {
-			Date dateToDate = null;
-			try {
-				dateToDate = sdf.parse(dateTo);
-			} catch (ParseException e) {
-				LOG.trace("Date parse error");
-			}
 			if (confirmationType.equals("libraryCard")) {
-				if (dateToDate.before(new Date())) {
+				if (isDateBefore(dateTo, new Date())) {
 					request.setAttribute("dateToMessage", rb.getString("confirmRequest.dateToIsInThePast"));
 					isValid = false;
 				} else {
 					request.setAttribute(dateToLiteral, dateTo);
 				}
 			} else if (confirmationType.equals("readingRoom")) {
-				if (!isToday(dateToDate)) {
+				if (!isToday(dateTo)) {
 					request.setAttribute("dateToMessage", rb.getString("confirmRequest.dateToOnlyCurrent"));
 					isValid = false;
 				} else {
@@ -190,7 +179,14 @@ public class ConfirmRequestCommand extends Command {
 	 * @throws IllegalArgumentException
 	 *             if the date is <code>null</code>
 	 */
-	private static boolean isToday(Date date) {
+	private static boolean isToday(String dateString) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date date = null;
+    try {
+      date = sdf.parse(dateString);
+    } catch (ParseException e) {
+      LOG.error(e);
+    }
 		return isSameDay(date, Calendar.getInstance().getTime());
 	}
 
@@ -205,4 +201,15 @@ public class ConfirmRequestCommand extends Command {
 		}
 		return dateTo;
 	}
+
+	private boolean isDateBefore(String date, Date endDate) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date dateTo = null;
+    try {
+      dateTo = sdf.parse(date);
+    } catch (ParseException e) {
+      LOG.error(e);
+    }
+    return dateTo.compareTo(endDate) < 0;
+  }
 }
