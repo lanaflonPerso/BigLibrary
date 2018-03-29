@@ -1,7 +1,6 @@
 package ua.khai.slynko.library.web.command.outOfControl;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.Path;
@@ -22,6 +22,8 @@ import ua.khai.slynko.library.mail.MailHelper;
 import ua.khai.slynko.library.security.Password;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
+import static ua.khai.slynko.library.constant.Constants.EMAIL_PATTERN;
+
 /**
  * Sign up command.
  * 
@@ -30,58 +32,34 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class SignUpCommand extends Command {
 
-	private static final long serialVersionUID = -3071536593627692473L;
 	private static final Logger LOG = Logger.getLogger(SignUpCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, AppException {
-		LOG.debug("Command starts");
+			throws AppException {
 
-		// obtain session
-		HttpSession session = request.getSession();
-
-		// obtain user role from session
-		Role userRole = (Role) session.getAttribute("userRole");
-		LOG.trace("Get userRole from session --> " + userRole);
-
-		// check if user role is not null
-		if (userRole != null) {
+		if (request.getSession().getAttribute("userRole") != null) {
 			throw new AppException("You do not have permission to access the requested resource");
 		}
 
-		// initialize address
-		String address = Path.PAGE_ERROR_PAGE;
-		LOG.trace("Forward address --> " + address);
-
-		// check if input data is valid
+		String address;
 		if (!inputDataIsValid(request)) {
 			address = Path.PAGE_SIGN_UP;
-			LOG.trace("Forward address --> " + address);
 		} else {
-			// create and initialize
 			User user = new User();
-			user.setLogin((String) request.getParameter("login"));
+			user.setLogin(request.getParameter("login"));
 			user.setPassword(Password.hash(request.getParameter("password1")));
-			user.setFirstName((String) request.getParameter("firstName"));
-			user.setLastName((String) request.getParameter("lastName"));
-			user.setEmail((String) request.getParameter("email"));
+			user.setFirstName(request.getParameter("firstName"));
+			user.setLastName(request.getParameter("lastName"));
+			user.setEmail(request.getParameter("email"));
 			user.setRoleId(Role.READER.getValue());
-			LOG.info("User " + user + " is going to be inserted into database");
 
-			// insert new user into db
 			DBManager.getInstance().createReader(user);
-			LOG.trace("Inserted in DB: user --> " + user);
-
-			// set send redirect into request (because of prg)
 			request.setAttribute("sendRedirect", true);
 
-			// set redirect page
 			address = Path.PAGE_LOGIN_REDERECT;
-			LOG.trace("Redirect address --> " + address);
-			session.setAttribute("signUpSuccessful", true);
+			request.getSession().setAttribute("signUpSuccessful", true);
 
-			// send mail (registration is successful)
 			String email = user.getEmail();
 			String subject = "Library registration";
 			String message = "Registration is successful!" + " Your username is: " + user.getLogin() + " , password: "
@@ -93,17 +71,14 @@ public class SignUpCommand extends Command {
 			}
 
 		}
-		LOG.debug("Command finished");
 		return address;
 	}
 
-	private boolean inputDataIsValid(HttpServletRequest request) throws IOException, ServletException, AppException {
+	private boolean inputDataIsValid(HttpServletRequest request) throws AppException {
 		boolean isValid = true;
 
-		// obtain dbManager
 		DBManager dbManager = DBManager.getInstance();
 
-		// obtain fields to validate from request
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String login = request.getParameter("login");
@@ -112,14 +87,7 @@ public class SignUpCommand extends Command {
 		String password2 = request.getParameter("password2");
 		HttpSession session = request.getSession();
 
-		// obtain captcha from session
-		String capthaAnswer = request.getParameter("capthaAnswer");
-
-		// obtain current locale for resource bundle
 		String currentLocale = (String) session.getAttribute("currentLocale");
-		LOG.debug("Locale --> " + currentLocale);
-
-		// init resource bundle
 		ResourceBundle rb;
 		if (currentLocale == null) {
 			rb = ResourceBundle.getBundle("resources", Locale.getDefault());
@@ -127,18 +95,14 @@ public class SignUpCommand extends Command {
 			rb = ResourceBundle.getBundle("resources", new Locale(currentLocale));
 		}
 
-		Pattern emailPattern = Pattern.compile("^[a-zA-Z][a-zA-Z0-9\\.-]*\\@[a-zA-Z]+\\.[a-zA-Z]+$");
-
 		LOG.trace("Validation starts");
 
-		// check if fields are filled
-		if (firstName == null && lastName == null && login == null && email == null) {
+		if (StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName)
+				&& StringUtils.isEmpty(login) && StringUtils.isEmpty(email)) {
 			request.setAttribute("fillInMessage", rb.getString("signup.fieldsAreNotFilled"));
-			isValid = false;
-			return isValid;
+			return false;
 		}
-		// first name validation
-		if (firstName == null || firstName.length() < 1) {
+		if (StringUtils.isEmpty(firstName)) {
 			request.setAttribute("firstNameMessage", rb.getString("signup.firstNameTooShort"));
 			isValid = false;
 		} else if (firstName.length() > 20) {
@@ -147,8 +111,7 @@ public class SignUpCommand extends Command {
 		} else {
 			request.setAttribute("firstName", firstName);
 		}
-		// last name validation
-		if (lastName == null || lastName.length() < 1) {
+		if (StringUtils.isEmpty(lastName)) {
 			request.setAttribute("lastNameMessage", rb.getString("signup.lastNameTooShort"));
 			isValid = false;
 		} else if (lastName.length() > 20) {
@@ -157,9 +120,8 @@ public class SignUpCommand extends Command {
 		} else {
 			request.setAttribute("lastName", lastName);
 		}
-		// login validation
 		String loginMessage = "loginMessage";
-		if (login == null || login.length() < 3) {
+		if (StringUtils.isEmpty(login) || login.length() < 3) {
 			request.setAttribute(loginMessage, rb.getString("signup.loginTooShort"));
 			isValid = false;
 		} else if (login.length() > 20) {
@@ -174,9 +136,8 @@ public class SignUpCommand extends Command {
 		} else {
 			request.setAttribute("login", login);
 		}
-		// email validation
 		String emailMessage = "emailMessage";
-		if (email == null || !emailPattern.matcher(email).matches()) {
+		if (StringUtils.isEmpty(email) || !Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
 			request.setAttribute(emailMessage, rb.getString("signup.emailIsNotValid"));
 			isValid = false;
 		} else if (email.length() < 5) {
@@ -194,14 +155,13 @@ public class SignUpCommand extends Command {
 		} else {
 			request.setAttribute("email", email);
 		}
-		// password validation
-		if (password1 == null || password1.length() < 5) {
+		if (StringUtils.isEmpty(password1) || password1.length() < 5) {
 			request.setAttribute("passwordMessage", rb.getString("signup.passwordTooShort"));
 			isValid = false;
 		} else if (password1.length() > 20) {
 			request.setAttribute("passwordMessage", rb.getString("signup.passwordTooLong"));
 			isValid = false;
-		} else if (password2 == null || !password1.equals(password2)) {
+		} else if (StringUtils.isEmpty(password2) || !password1.equals(password2)) {
 			request.setAttribute("passwordMessage", rb.getString("signup.passwordsAreNotEqual"));
 			isValid = false;
 		}
