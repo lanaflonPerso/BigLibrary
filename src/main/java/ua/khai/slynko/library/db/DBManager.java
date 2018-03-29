@@ -853,6 +853,14 @@ public final class DBManager {
 		}
 	}
 
+	public void toggleUserBlockStatus(Long userId) throws DBException	{
+		if (isUserBlocked(userId)) {
+			unblockUser(userId);
+		} else {
+			blockUser(userId);
+		}
+	}
+
 	/**
 	 * Is user blocked.
 	 * 
