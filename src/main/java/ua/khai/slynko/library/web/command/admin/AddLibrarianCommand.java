@@ -40,10 +40,12 @@ public class AddLibrarianCommand extends Command {
 	}
 
 	private UserForm buildAddLibrarianForm(HttpServletRequest request) {
-		return new UserForm(request.getParameter("firstName"), request.getParameter("lastName"),
-				request.getParameter("email"), request.getParameter("login"),
-				request.getParameter("password1"), request.getParameter("password2"));
-
+		return new UserForm(request.getParameter("firstName"),
+				request.getParameter("lastName"),
+				request.getParameter("email"),
+				request.getParameter("login"),
+				request.getParameter("password1"),
+				request.getParameter("password2"));
 	}
 
 	private User buildLibrarian(HttpServletRequest request) {

@@ -1583,4 +1583,18 @@ public final class DBManager {
 		return catalogItem;
 	}
 
+
+	public List<CatalogItem> getListCatalogItems(String author, String title) throws DBException {
+		List<CatalogItem> catalogItems = null;
+		if (StringUtils.isEmpty(author) && StringUtils.isEmpty(title)) {
+			catalogItems = findCatalogItems();
+		} else if (StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
+			catalogItems = findCatalogItemsByTitle(title);
+		} else if (!StringUtils.isEmpty(author) && (StringUtils.isEmpty(title))) {
+			catalogItems = findCatalogItemsByAuthor(author);
+		} else if (!StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
+			catalogItems = findCatalogItemsByAuthorAndTitle(author, title);
+		}
+		return catalogItems;
+	}
 }

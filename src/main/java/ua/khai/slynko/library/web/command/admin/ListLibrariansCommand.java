@@ -43,7 +43,6 @@ public class ListLibrariansCommand extends Command {
 				request.setAttribute("noMatchesFound", true);
 			} else {
 				listLibrarians.sort(Comparator.comparing(User::getLastName));
-
 				session.setAttribute("listUsers", listLibrarians);
 			}
 		}

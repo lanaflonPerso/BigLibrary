@@ -2,8 +2,6 @@ package ua.khai.slynko.library.web.command.outOfControl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +17,7 @@ import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
+import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
 /**
  * Lists catalog items.
@@ -35,12 +34,12 @@ public class ListCatalogCommand extends Command {
 		HttpSession session = request.getSession();
 		String author = request.getParameter("author");
 		String title = request.getParameter("title");
-		List<CatalogItem> catalogItems = getListCatalogItems(author, title);
+		List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(author, title);
 		if (catalogItems == null || catalogItems.size() == 0) {
 			request.setAttribute("noMatchesFound", true);
 		} else {
 			String sortCriteria = request.getParameter("sortBy");
-			sortCatalogItemsBy(catalogItems, sortCriteria);
+			CommandUtils.sortCatalogItemsBy(catalogItems, sortCriteria);
 			request.setAttribute("catalogItems", catalogItems);
 		}
 		String address = Path.PAGE_LIST_CATALOG;
@@ -62,32 +61,4 @@ public class ListCatalogCommand extends Command {
 		return address;
 	}
 
-	private void sortCatalogItemsBy(List<CatalogItem> catalogItems, String criteria) {
-
-		if (criteria == null || criteria.equals("title")) {
-			catalogItems.sort(Comparator.comparing(CatalogItem::getTitle));
-		} else if (criteria.equals("author")) {
-			catalogItems.sort(Comparator.comparing(CatalogItem::getAuthor));
-		} else if (criteria.equals("edition")) {
-			catalogItems.sort(Comparator.comparing(CatalogItem::getEdition));
-		} else if (criteria.equals("publicationYear")) {
-			catalogItems.sort(Comparator.comparing(CatalogItem::getPublicationYear));
-		}
-	}
-
-	private List<CatalogItem> getListCatalogItems(String author, String title) throws DBException {
-		DBManager dbManager = DBManager.getInstance();
-		List<CatalogItem> catalogItems = null;
-
-		if (StringUtils.isEmpty(author) && StringUtils.isEmpty(title)) {
-			catalogItems = dbManager.findCatalogItems();
-		} else if (StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
-			catalogItems = dbManager.findCatalogItemsByTitle(title);
-		} else if (!StringUtils.isEmpty(author) && StringUtils.isEmpty(title)) {
-			catalogItems = dbManager.findCatalogItemsByAuthor(author);
-		} else if (!StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
-			catalogItems = dbManager.findCatalogItemsByAuthorAndTitle(author, title);
-		}
-		return catalogItems;
-	}
 }
