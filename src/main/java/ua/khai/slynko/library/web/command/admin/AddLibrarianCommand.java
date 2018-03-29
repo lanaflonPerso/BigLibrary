@@ -11,6 +11,7 @@ import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.security.Password;
 import ua.khai.slynko.library.validation.model.UserForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
+import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
 /**
  * Add librarian command.
@@ -26,10 +27,9 @@ public class AddLibrarianCommand extends Command {
 		if (!inputDataIsValid(request)) {
 			return Path.PAGE_ADD_LIBRARIAN;
 		} else {
-            DBManager.getInstance().createUser(buildLibrarian(request));
-            request.setAttribute("sendRedirect", true);
-			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
-			request.getSession().setAttribute("librarianAddIsSuccessful", true);
+      DBManager.getInstance().createUser(buildLibrarian(request));
+			populateRequestSuccess(request);
+			CommandUtils.setRedirect(request);
 			return Path.PAGE_LOGIN_REDERECT;
 		}
 	}
@@ -55,5 +55,10 @@ public class AddLibrarianCommand extends Command {
 		librarian.setEmail(request.getParameter("email"));
 		librarian.setRoleId(Role.LIBRARIAN.getValue());
 		return librarian;
+	}
+
+	private void populateRequestSuccess(HttpServletRequest request) {
+		request.getSession().setAttribute("librarianAddIsSuccessful", true);
+		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
 	}
 }

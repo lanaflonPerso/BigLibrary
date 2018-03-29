@@ -9,6 +9,7 @@ import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.validation.model.BookForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
+import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
 /**
  * Login command.
@@ -23,8 +24,8 @@ public class AddBookCommand extends Command {
             return Path.PAGE_ADD_BOOK;
         } else {
             DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
-            populateNotificationsSuccess(request);
-            setRedirect(request);
+            populateRequestSuccess(request);
+            CommandUtils.setRedirect(request);
             return Path.PAGE_HOME_REDERECT;
         }
     }
@@ -51,11 +52,7 @@ public class AddBookCommand extends Command {
         return catalogItem;
     }
 
-    private void populateNotificationsSuccess(HttpServletRequest request) {
+    private void populateRequestSuccess(HttpServletRequest request) {
         request.getSession().setAttribute("bookAddIsSuccessful", true);
-    }
-
-    private void setRedirect(HttpServletRequest request) {
-        request.setAttribute("sendRedirect", true);
     }
 }
