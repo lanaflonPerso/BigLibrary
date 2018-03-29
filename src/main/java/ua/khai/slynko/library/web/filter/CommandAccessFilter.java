@@ -16,8 +16,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
