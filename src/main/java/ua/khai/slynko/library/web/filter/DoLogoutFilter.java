@@ -30,20 +30,14 @@ public class DoLogoutFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(DoLogoutFilter.class);
 
 	public void destroy() {
-		LOG.debug("Filter destruction starts");
 		// do nothing
-		LOG.debug("Filter destruction finished");
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		LOG.debug("Filter starts");
-		// check if access allowed
 		if (isAccessAllowed(request)) {
-			LOG.debug("Filter finished");
 			chain.doFilter(request, response);
 		} else {
-			LOG.trace("You don't have acces to this page anymore");
 			request.getRequestDispatcher(Path.COMMAND_LOGOUT).forward(request, response);
 		}
 	}
@@ -52,20 +46,13 @@ public class DoLogoutFilter implements Filter {
 		boolean accessAllowed = true;
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		User user = (User) session.getAttribute("user");
-		LOG.debug("user --> " + user);
 		Role userRole = (Role) session.getAttribute("userRole");
-		LOG.debug("userRole --> " + userRole);
-
 		if (user != null && userRole != null) {
-			DBManager dbManager = null;
 			try {
-				dbManager = DBManager.getInstance();
-				// ckeck if reader is blocked
-				if (userRole == Role.READER && dbManager.isUserBlocked(user.getId())) {
+				if (userRole == Role.READER && DBManager.getInstance().isUserBlocked(user.getId())) {
 					accessAllowed = false;
 				}
-				// check if librarian exists
-				if (userRole == Role.LIBRARIAN && dbManager.findUser(user.getId()) == null) {
+				if (userRole == Role.LIBRARIAN && DBManager.getInstance().findUser(user.getId()) == null) {
 					accessAllowed = false;
 				}
 			} catch (DBException e) {
@@ -75,9 +62,7 @@ public class DoLogoutFilter implements Filter {
 		return accessAllowed;
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-		LOG.debug("Filter initialization starts");
-
-		LOG.debug("Filter initialization finished");
+	public void init(FilterConfig fConfig) {
+		// do nothing
 	}
 }
