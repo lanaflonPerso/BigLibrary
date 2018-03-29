@@ -31,53 +31,28 @@ public class AlreadyLoggedInFilter implements Filter {
 	private static final Logger LOG = Logger.getLogger(AlreadyLoggedInFilter.class);
 
 	public void destroy() {
-		LOG.debug("Filter destruction starts");
 		// do nothing
-		LOG.debug("Filter destruction finished");
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		LOG.debug("Filter starts");
-		
-		// obtain session from request
 		HttpSession session = ((HttpServletRequest) request).getSession();
-		
-		// obtain user and userRole from session
 		User user = (User) session.getAttribute("user");
-		LOG.debug("user --> " + user);
 		Role userRole = (Role) session.getAttribute("userRole");
-		LOG.debug("userRole --> " + userRole);
+		String address;
 		
-		// init address
-		String address = Path.PAGE_ERROR_PAGE;
-		
-		// check if user is null
 		if (user == null) {
-			// obtain cookies
 			Cookie[] cookies = ((HttpServletRequest) request).getCookies();
-			// ckeck if cookies are null
 			if (cookies != null) {
 				for (int i = 0; i < cookies.length; i++) {
 					Cookie c = cookies[i];
-					// check if cookie name equals userId
 					if (c.getName().equals("userId")) {
-						LOG.debug("userId in cookies --> " + c.getValue());
 						try {
-							// obtain user from db
 							user = DBManager.getInstance().findUser(Long.parseLong(c.getValue()));
-							LOG.debug("user --> " + user);
-							// init user role 
 							userRole = Role.getRole(user);
-							LOG.debug("userRole --> " + userRole);
-							// put user and user role into session
 							session.setAttribute("user", user);
-							LOG.trace("Set the session attribute: user --> " + user);
 							session.setAttribute("userRole", userRole);
-							LOG.trace("Set the session attribute: userRole --> " + userRole);
-						} catch (NumberFormatException e) {
-							LOG.error(e.getMessage());
-						} catch (DBException e) {
+						} catch (NumberFormatException | DBException e) {
 							LOG.error(e.getMessage());
 						}
 					}
@@ -85,9 +60,7 @@ public class AlreadyLoggedInFilter implements Filter {
 			}
 		}
 		
-		// check if user and user role are not null
 		if (user != null && userRole != null) {
-			// obtain address to redirect
 			address = (String) session.getAttribute("redirectPage");
 			if (userRole == Role.ADMIN) {
 				if (address == null) {
@@ -110,9 +83,6 @@ public class AlreadyLoggedInFilter implements Filter {
 			request.getRequestDispatcher(address).forward(request, response);
 		}
 		initRequestCommonMessages((HttpServletRequest) request);
-
-		LOG.debug("Init request messages");
-		LOG.debug("Filter ends");
 		chain.doFilter(request, response);
 	}
 
@@ -235,9 +205,7 @@ public class AlreadyLoggedInFilter implements Filter {
 		session.removeAttribute("redirectPage");
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-		LOG.debug("Filter initialization starts");
-
-		LOG.debug("Filter initialization finished");
+	public void init(FilterConfig fConfig) {
+		// do nothing
 	}
 }
