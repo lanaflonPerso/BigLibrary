@@ -16,8 +16,6 @@ import ua.khai.slynko.library.exception.AppException;
  * 
  */
 public abstract class Command implements Serializable {
-	private static final long serialVersionUID = 8879403039606311780L;
-
 	/**
 	 * Execution method for command.
 	 * 

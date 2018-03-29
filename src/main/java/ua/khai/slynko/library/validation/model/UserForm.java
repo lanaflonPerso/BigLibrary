@@ -53,8 +53,7 @@ public class UserForm
 
         if (login == null && email == null && firstName == null && lastName == null) {
             request.setAttribute("fillInMessage", rb.getString("signup.fieldsAreNotFilled"));
-            isValid = false;
-            return isValid;
+            return false;
         }
         if (firstName == null || firstName.length() < STRING_MIN_LENGTH) {
             request.setAttribute("firstNameMessage", rb.getString("signup.firstNameTooShort"));
@@ -121,7 +120,7 @@ public class UserForm
         } else if (password.length() > PASSWORD_MAX_LENGTH) {
             request.setAttribute("passwordMessage", rb.getString("signup.passwordTooLong"));
             isValid = false;
-        } else if (passwordConfirmation == null || !password.equals(passwordConfirmation)) {
+        } else if (!password.equals(passwordConfirmation)) {
             request.setAttribute("passwordMessage", rb.getString("signup.passwordsAreNotEqual"));
             isValid = false;
         }

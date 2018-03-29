@@ -18,14 +18,13 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
 public class AddBookCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws AppException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         if (!isInputDataValid(request)) {
             return Path.PAGE_ADD_BOOK;
         } else {
             DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
-            request.getSession().setAttribute("bookAddIsSuccessful", true);
-            request.setAttribute("sendRedirect", true);
+            populateNotificationsSuccess(request);
+            setRedirect(request);
             return Path.PAGE_HOME_REDERECT;
         }
     }
@@ -50,5 +49,13 @@ public class AddBookCommand extends Command {
         catalogItem.setPublicationYear(Integer.parseInt(request.getParameter("publicationYear")));
         catalogItem.setInstancesNumber(Integer.parseInt(request.getParameter("instancesNumber")));
         return catalogItem;
+    }
+
+    private void populateNotificationsSuccess(HttpServletRequest request) {
+        request.getSession().setAttribute("bookAddIsSuccessful", true);
+    }
+
+    private void setRedirect(HttpServletRequest request) {
+        request.setAttribute("sendRedirect", true);
     }
 }
