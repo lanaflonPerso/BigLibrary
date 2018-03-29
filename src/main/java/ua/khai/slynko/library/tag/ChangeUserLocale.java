@@ -1,7 +1,6 @@
 package ua.khai.slynko.library.tag;
 
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ import ua.khai.slynko.library.exception.DBException;
 public class ChangeUserLocale extends TagSupport {
 
 	private static final Logger LOG = Logger.getLogger(ChangeUserLocale.class);
-	private static final long serialVersionUID = 1L;
 	private String locale;
 
 	public void setLocale(String locale) {
@@ -28,26 +26,19 @@ public class ChangeUserLocale extends TagSupport {
 	}
 
 	@Override
-	public int doStartTag() throws JspException {
+	public int doStartTag() {
 		HttpSession session = pageContext.getSession();
 		User user = (User) session.getAttribute("user");
 		if (user != null && Locale.contains(locale)) {
 			Integer localeId = Locale.valueOf(locale.toUpperCase()).getValue();
-			LOG.debug("Locale id " + localeId);
 			try {
-				// set new user locale in db
 				DBManager.getInstance().setUserLocale(localeId, user.getId());
 				String newLocale = Locale.values()[localeId - 1].toString();
-				LOG.debug("user's locale " + newLocale);
-				// update user and set into session
 				user.setLocale(newLocale);
 				session.setAttribute("user", user);
-				LOG.trace("locale is changed to " + locale);
 			} catch (DBException e) {
 				LOG.error(e.getMessage());
 			}
-		} else {
-			LOG.trace("User was not found in db");
 		}
 		return SKIP_BODY;
 	}
