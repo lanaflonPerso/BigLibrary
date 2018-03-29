@@ -36,12 +36,9 @@ public class PrintPenalty extends BodyTagSupport {
 	}
 
 	@Override
-	public int doStartTag() throws JspException {
-
-		// print penalty size or 0 depending on current date
+	public int doStartTag() {
 		if (penaltyDate != null) {
 			String currentLocaleStr = (String) pageContext.getSession().getAttribute("currentLocale");
-			LOG.debug("Current locale : " + currentLocaleStr);
 			Locale locale = getLocale(currentLocaleStr);
 			NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
 
@@ -73,7 +70,7 @@ public class PrintPenalty extends BodyTagSupport {
 	}
 
 	private Locale getLocale(String currentLocaleStr) {
-		Locale locale = null;
+		Locale locale;
 		if (currentLocaleStr.equals("ru") || currentLocaleStr.equals("RU")) {
 			locale = new Locale("ru", "UA");
 		} else {
