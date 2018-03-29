@@ -24,50 +24,28 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class ForgotPasswordCommand extends Command {
 
-	private static final long serialVersionUID = -3071536593627692473L;
 	private static final Logger LOG = Logger.getLogger(ForgotPasswordCommand.class);
+	private static final Integer PASSWORD_LENGTH = 8;
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws AppException {
-		LOG.debug("Command starts");
-
-		// obtain dbManager and session
 		DBManager dbmanager = DBManager.getInstance();
 		HttpSession session = request.getSession();
-
-		// set redirect path
-		String address = Path.PAGE_LOGIN_REDERECT;
-
-		// obtain email or login
 		String forgotPassData = request.getParameter("forgotPassData");
 		String loginOrEmail = request.getParameter("loginOrEmail");
-
-		LOG.info("Forgot password data: --> " + forgotPassData);
-		LOG.info("Login or email: --> " + loginOrEmail);
-
-		// obtain user by login or email
 		User user = null;
 		if (forgotPassData.equals("login")) {
 			user = dbmanager.findUserByLogin(loginOrEmail);
 		} else if (forgotPassData.equals("email")) {
 			user = dbmanager.findUserByEmail(loginOrEmail);
 		}
-		LOG.debug("User -->" + user);
-
-		// check if user is null
 		if (user != null) {
-			// init restoration message params
 			String emailToSend = user.getEmail();
-			String newPassword = RandomStringUtils.randomAlphabetic(8);
+			String newPassword = RandomStringUtils.randomAlphabetic(PASSWORD_LENGTH);
 			String subject = "Library forgot password";
 			String message = "Your login is: " + user.getLogin() + ", new account password is: " + newPassword;
 
-			LOG.trace("Email to send: --> " + emailToSend);
-			LOG.trace("Subject: --> " + subject);
-			LOG.trace("Message: --> " + emailToSend);
-
-			// send mail and update user password in db
 			try {
 				MailHelper.sendMail(emailToSend, subject, message);
 				dbmanager.updateUserPasswordByEmail(Password.hash(newPassword), emailToSend);
@@ -77,15 +55,9 @@ public class ForgotPasswordCommand extends Command {
 				session.setAttribute("passwordRestorationIsSuccessful", false);
 			}
 		} else {
-			// set user is not found into session
 			session.setAttribute("passwordRestorationUserIsNotFound", true);
 		}
-
-		// set redirect true
 		request.setAttribute("sendRedirect", true);
-
-		LOG.debug("Command finished");
-		
-		return address;
+		return Path.PAGE_LOGIN_REDERECT;
 	}
 }
