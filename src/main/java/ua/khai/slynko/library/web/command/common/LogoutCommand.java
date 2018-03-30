@@ -1,12 +1,13 @@
 package ua.khai.slynko.library.web.command.common;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.web.abstractCommand.Command;
+
+import java.util.Arrays;
 
 /**
  * Logout command.
@@ -19,7 +20,7 @@ public class LogoutCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		invalidateSession(request);
-		cleanCookies(request, response);
+		cleanUserIdCookie(request, response);
 		return Path.PAGE_LOGIN;
 	}
 
@@ -30,17 +31,14 @@ public class LogoutCommand extends Command {
 		}
 	}
 
-	private void cleanCookies(HttpServletRequest request, HttpServletResponse response) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (int i = 0; i < cookies.length; i++) {
-				Cookie cookie = cookies[i];
-				if (cookie.getName().equals("userId")) {
+	private void cleanUserIdCookie(HttpServletRequest request, HttpServletResponse response) {
+		Arrays.stream(request.getCookies())
+				.filter(cookie -> cookie.getName().equals("userId"))
+				.findFirst()
+				.ifPresent(cookie -> {
 					cookie.setValue(null);
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);
-				}
-			}
-		}
+				});
 	}
 }
