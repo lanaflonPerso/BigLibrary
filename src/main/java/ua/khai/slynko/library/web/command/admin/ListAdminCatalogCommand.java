@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
@@ -24,33 +23,33 @@ import static ua.khai.slynko.library.constant.Constants.TRUE;
 public class ListAdminCatalogCommand extends Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-		HttpSession session = request.getSession();
-		String address = Path.PAGE_LIST_ADMIN_CATALOG;
-		String addBook = request.getParameter("addBook");
-		String itemId = request.getParameter("itemId");
-		if (TRUE.equals(addBook)) {
-			address = Path.PAGE_ADD_BOOK;
-		} else if (itemId != null) {
-			List<CatalogItem> catalogItems = (List<CatalogItem>) session.getAttribute("catalogItems");
-			for (CatalogItem catalogItem : catalogItems) {
-				if (catalogItem.getId() == Long.parseLong(itemId)) {
-					session.setAttribute("catalogItem", catalogItem);
-				}
-			}
-			address = Path.PAGE_MODIFY_BOOK;
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		if (isAddBookCommand(request)) {
+			return Path.PAGE_ADD_BOOK;
+		} else if (isModifyBookCommand(request)) {
+			((List<CatalogItem>) request.getSession().getAttribute("catalogItems")).stream()
+					.filter(catalogItem -> catalogItem.getId() == Long.parseLong(request.getParameter("itemId")))
+					.findFirst()
+					.ifPresent(catalogItem -> request.getSession().setAttribute("catalogItem", catalogItem));
+			return Path.PAGE_MODIFY_BOOK;
 		} else {
-			String author = request.getParameter("author");
-			String title = request.getParameter("title");
-			List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(author, title);
+			List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(
+					request.getParameter("author"),
+					request.getParameter("title"));
 			if (catalogItems == null || catalogItems.size() == 0) {
 				request.setAttribute("noMatchesFound", true);
 			}
-			String sortCriteria = request.getParameter("sortBy");
-			CommandUtils.sortCatalogItemsBy(catalogItems, sortCriteria);
-			session.setAttribute("catalogItems", catalogItems);
+			CommandUtils.sortCatalogItemsBy(catalogItems, request.getParameter("sortBy"));
+			request.getSession().setAttribute("catalogItems", catalogItems);
 		}
-		return address;
+		return Path.PAGE_LIST_ADMIN_CATALOG;
+	}
+
+	private boolean isAddBookCommand(HttpServletRequest request) {
+		return TRUE.equals(request.getParameter("addBook"));
+	}
+
+	private boolean isModifyBookCommand(HttpServletRequest request) {
+		return request.getParameter("itemId") != null;
 	}
 }
