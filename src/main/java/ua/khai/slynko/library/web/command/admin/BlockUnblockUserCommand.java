@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
@@ -18,15 +19,17 @@ import ua.khai.slynko.library.web.command.utils.CommandUtils;
 public class BlockUnblockUserCommand extends Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		toggleUserBlockStatus(request);
+		return Path.PAGE_HOME_REDERECT;
+	}
+
+	private void toggleUserBlockStatus(HttpServletRequest request) throws DBException {
 		Long userId = Long.parseLong(request.getParameter("userId"));
 		DBManager.getInstance().toggleUserBlockStatus(userId);
 		populateRequestSuccess(request);
 		CommandUtils.setRedirect(request);
-		return Path.PAGE_HOME_REDERECT;
 	}
-
 	private void populateRequestSuccess(HttpServletRequest request) {
 		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_READERS);
 	}
