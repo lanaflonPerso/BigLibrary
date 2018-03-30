@@ -7,6 +7,7 @@ import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.validation.model.BookForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 import ua.khai.slynko.library.web.command.utils.CommandUtils;
@@ -23,9 +24,7 @@ public class AddBookCommand extends Command {
         if (!isInputDataValid(request)) {
             return Path.PAGE_ADD_BOOK;
         } else {
-            DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
-            populateRequestSuccess(request);
-            CommandUtils.setRedirect(request);
+            createCatalogItem(request);
             return Path.PAGE_HOME_REDERECT;
         }
     }
@@ -40,6 +39,12 @@ public class AddBookCommand extends Command {
                 request.getParameter("bookTitle"), request.getParameter("edition"),
                 request.getParameter("author"), request.getParameter("publicationYear"),
                 request.getParameter("instancesNumber"));
+    }
+
+    private void createCatalogItem(HttpServletRequest request) throws DBException {
+        DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
+        populateRequestSuccess(request);
+        CommandUtils.setRedirect(request);
     }
 
     private CatalogItem buildCatalogItem(HttpServletRequest request) {

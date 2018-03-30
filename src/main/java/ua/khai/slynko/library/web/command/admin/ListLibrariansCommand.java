@@ -28,9 +28,10 @@ public class ListLibrariansCommand extends Command {
 		if (isRemoveLibrarianCommand(request)) {
 			removeLibrarian(request);
 			return Path.PAGE_HOME_REDERECT;
+		}  else	{
+			findLibrariansAndSort(request);
+			return Path.PAGE_LIST_USERS;
 		}
-		findLibrariansAndSort(request);
-		return Path.PAGE_LIST_USERS;
 	}
 
 	private boolean isRemoveLibrarianCommand(HttpServletRequest request) {

@@ -8,6 +8,7 @@ import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.security.Password;
 import ua.khai.slynko.library.validation.model.UserForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
@@ -27,9 +28,7 @@ public class AddLibrarianCommand extends Command {
 		if (!inputDataIsValid(request)) {
 			return Path.PAGE_ADD_LIBRARIAN;
 		} else {
-      DBManager.getInstance().createUser(buildLibrarian(request));
-			populateRequestSuccess(request);
-			CommandUtils.setRedirect(request);
+			createLibrarian(request);
 			return Path.PAGE_LOGIN_REDERECT;
 		}
 	}
@@ -46,6 +45,12 @@ public class AddLibrarianCommand extends Command {
 				request.getParameter("login"),
 				request.getParameter("password1"),
 				request.getParameter("password2"));
+	}
+
+	private void createLibrarian(HttpServletRequest request) throws DBException	{
+		DBManager.getInstance().createUser(buildLibrarian(request));
+		populateRequestSuccess(request);
+		CommandUtils.setRedirect(request);
 	}
 
 	private User buildLibrarian(HttpServletRequest request) {
