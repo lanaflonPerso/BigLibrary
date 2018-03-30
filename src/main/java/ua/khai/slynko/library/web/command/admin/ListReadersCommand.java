@@ -5,13 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
 /**
@@ -22,33 +23,47 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class ListReadersCommand extends Command {
 
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-		HttpSession session = request.getSession();
-		String address = Path.PAGE_LIST_USERS;
-		String userId = request.getParameter("userId");
-		if (userId != null) {
-			List<User> listReaders = (List<User>) session.getAttribute("listUsers");
-			for (User user : listReaders) {
-				if (user.getId() == Long.parseLong(userId)) {
-					request.setAttribute("user", user);
-					request.setAttribute("userIdBlocked", DBManager.getInstance().isUserBlocked(user.getId()));
-				}
-			}
-			address = Path.PAGE_USER_DETAILS;
-		} else {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			List<User> listReaders = DBManager.getInstance().findUsers(Role.READER.getValue(), firstName, lastName);
+	private static final Logger LOG = Logger.getLogger(ListReadersCommand.class);
 
-			if (listReaders == null || listReaders.isEmpty()) {
-				request.setAttribute("noMatchesFound", true);
-			} else {
-				listReaders.sort(Comparator.comparing(User::getLastName));
-				session.setAttribute("listUsers", listReaders);
-			}
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		if (isUserDetailsCommand(request)) {
+			findReaderDetails(request);
+			return Path.PAGE_USER_DETAILS;
+		} else {
+			findReadersAndSort(request);
+			return Path.PAGE_LIST_USERS;
 		}
-		return address;
+	}
+
+	private boolean isUserDetailsCommand(HttpServletRequest request) {
+		return request.getParameter("userId") != null;
+	}
+
+	private void findReaderDetails(HttpServletRequest request) {
+		((List<User>) request.getSession().getAttribute("listUsers")).stream()
+				.filter(user -> user.getId() == Long.parseLong(request.getParameter("userId")))
+				.findFirst()
+				.ifPresent(user -> {
+					request.setAttribute("user", user);
+					try	{
+						request.setAttribute("userIdBlocked", DBManager.getInstance().isUserBlocked(user.getId()));
+					}	catch (DBException e)	{
+						LOG.error(e.getMessage());
+					}
+				});
+	}
+
+	private void findReadersAndSort(HttpServletRequest request) throws DBException {
+		List<User> listReaders = DBManager.getInstance().findUsers(Role.READER.getValue(),
+				request.getParameter("firstName"),
+				request.getParameter("lastName"));
+
+		if (listReaders == null || listReaders.isEmpty()) {
+			request.setAttribute("noMatchesFound", true);
+		} else {
+			listReaders.sort(Comparator.comparing(User::getLastName));
+			request.getSession().setAttribute("listUsers", listReaders);
+		}
 	}
 }
