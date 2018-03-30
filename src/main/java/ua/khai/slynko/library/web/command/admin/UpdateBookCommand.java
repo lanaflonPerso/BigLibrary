@@ -8,6 +8,7 @@ import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.validation.model.BookForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
@@ -19,27 +20,34 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
  */
 public class UpdateBookCommand extends Command {
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-		HttpSession session = request.getSession();
-		DBManager dbManager = DBManager.getInstance();
-		CatalogItem catalogItem = (CatalogItem) session.getAttribute("catalogItem");
-		String address;
-		String deleteBook = request.getParameter("delete");
-		if (deleteBook != null && deleteBook.equals("true")) {
-			dbManager.removeCatalogItem(catalogItem.getId());
-			request.setAttribute("sendRedirect", true);
-			address = Path.PAGE_HOME_REDERECT;
-			session.setAttribute("bookDeleteIsSuccessful", true);
+	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
+		if (isDeleteBookCommand(request)) {
+			deleteBook(request);
+			return Path.PAGE_HOME_REDERECT;
 		} else if (!isInputDataValid(request)) {
-			address = Path.PAGE_MODIFY_BOOK;
+			return Path.PAGE_MODIFY_BOOK;
 		} else {
-			dbManager.updateCatalogItem(updateCatalogItem(request, catalogItem));
-			request.setAttribute("sendRedirect", true);
-			address = Path.PAGE_HOME_REDERECT;
-			session.setAttribute("bookUpdateIsSuccessful", true);
+			updateBook(request);
+			return Path.PAGE_HOME_REDERECT;
 		}
-		return address;
+	}
+
+	private boolean isDeleteBookCommand(HttpServletRequest request) {
+		return request.getParameter("delete") != null && request.getParameter("delete").equals("true");
+	}
+
+	private void deleteBook(HttpServletRequest request) throws DBException	{
+		DBManager.getInstance().removeCatalogItem(
+				((CatalogItem) request.getSession().getAttribute("catalogItem")).getId());
+		request.setAttribute("sendRedirect", true);
+		request.getSession().setAttribute("bookDeleteIsSuccessful", true);
+	}
+
+	private void updateBook(HttpServletRequest request) throws DBException	{
+		DBManager.getInstance().updateCatalogItem(updateCatalogItem(request,
+				(CatalogItem) request.getSession().getAttribute("catalogItem")));
+		request.setAttribute("sendRedirect", true);
+		request.getSession().setAttribute("bookUpdateIsSuccessful", true);
 	}
 
 	private boolean isInputDataValid(HttpServletRequest request) {
