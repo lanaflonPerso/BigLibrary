@@ -9,6 +9,7 @@ import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
@@ -27,22 +28,12 @@ public class ListAdminCatalogCommand extends Command {
 		if (isAddBookCommand(request)) {
 			return Path.PAGE_ADD_BOOK;
 		} else if (isModifyBookCommand(request)) {
-			((List<CatalogItem>) request.getSession().getAttribute("catalogItems")).stream()
-					.filter(catalogItem -> catalogItem.getId() == Long.parseLong(request.getParameter("itemId")))
-					.findFirst()
-					.ifPresent(catalogItem -> request.getSession().setAttribute("catalogItem", catalogItem));
+			putSelectedBookIntoSession(request);
 			return Path.PAGE_MODIFY_BOOK;
 		} else {
-			List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(
-					request.getParameter("author"),
-					request.getParameter("title"));
-			if (catalogItems == null || catalogItems.size() == 0) {
-				request.setAttribute("noMatchesFound", true);
-			}
-			CommandUtils.sortCatalogItemsBy(catalogItems, request.getParameter("sortBy"));
-			request.getSession().setAttribute("catalogItems", catalogItems);
+			findBooksAndSort(request);
+			return Path.PAGE_LIST_ADMIN_CATALOG;
 		}
-		return Path.PAGE_LIST_ADMIN_CATALOG;
 	}
 
 	private boolean isAddBookCommand(HttpServletRequest request) {
@@ -51,5 +42,23 @@ public class ListAdminCatalogCommand extends Command {
 
 	private boolean isModifyBookCommand(HttpServletRequest request) {
 		return request.getParameter("itemId") != null;
+	}
+
+	private void putSelectedBookIntoSession(HttpServletRequest request) {
+		((List<CatalogItem>) request.getSession().getAttribute("catalogItems")).stream()
+				.filter(catalogItem -> catalogItem.getId() == Long.parseLong(request.getParameter("itemId")))
+				.findFirst()
+				.ifPresent(catalogItem -> request.getSession().setAttribute("catalogItem", catalogItem));
+	}
+
+	private void findBooksAndSort(HttpServletRequest request) throws DBException {
+		List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(
+				request.getParameter("author"),
+				request.getParameter("title"));
+		if (catalogItems == null || catalogItems.size() == 0) {
+			request.setAttribute("noMatchesFound", true);
+		}
+		CommandUtils.sortCatalogItemsBy(catalogItems, request.getParameter("sortBy"));
+		request.getSession().setAttribute("catalogItems", catalogItems);
 	}
 }
