@@ -25,15 +25,18 @@ public class UpdateProfileCommand extends Command {
 		if (!inputDataIsValid(request)) {
 			return Path.PAGE_UPDATE_PROFILE;
 		} else {
-			User user = buildUser(request);
-			DBManager.getInstance().updateUser(user);
-			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
-			session.setAttribute("redirectPage", Path.COMMAND_SETTINGS);
-			session.setAttribute("profileUpdateIsSuccessful", true);
-			request.setAttribute("sendRedirect", true);
+			updateUser(request);
 			return Path.PAGE_HOME_REDERECT;
 		}
+	}
+
+	private void updateUser(HttpServletRequest request) throws DBException {
+		User user = buildUser(request);
+		DBManager.getInstance().updateUser(user);
+		request.getSession().setAttribute("user", user);
+		request.getSession().setAttribute("redirectPage", Path.COMMAND_SETTINGS);
+		request.getSession().setAttribute("profileUpdateIsSuccessful", true);
+		request.setAttribute("sendRedirect", true);
 	}
 
 	private boolean inputDataIsValid(HttpServletRequest request) throws DBException	{
