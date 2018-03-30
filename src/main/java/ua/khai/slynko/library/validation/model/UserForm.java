@@ -40,7 +40,6 @@ public class UserForm
 
     public boolean validateAndPrefillRequestWithErrors(HttpServletRequest request) throws DBException {
         boolean isValid = true;
-        Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
         HttpSession session = request.getSession();
         String currentLocale = (String) session.getAttribute("currentLocale");
         User user = (User) request.getSession().getAttribute("user");
@@ -93,7 +92,7 @@ public class UserForm
             request.setAttribute("login", login);
         }
         String emailMessage = "emailMessage";
-        if (email == null || !emailPattern.matcher(email).matches()) {
+        if (email == null || !Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
             request.setAttribute(emailMessage, rb.getString("signup.emailIsNotValid"));
             isValid = false;
         } else if (email.length() < EMAIL_MIN_LENGTH) {
