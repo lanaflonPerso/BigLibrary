@@ -1597,4 +1597,15 @@ public final class DBManager {
 		}
 		return catalogItems;
 	}
+
+	public List<UserCatalogItemBean> findCatalogItemsBy(Long userId, String criteria) throws DBException {
+		List<UserCatalogItemBean> catalogItemBeanList = new ArrayList<>();
+		DBManager dbManager = DBManager.getInstance();
+		if (criteria == null || criteria.equals("notConfirmed")) {
+			catalogItemBeanList = dbManager.getUserCatalogItemBeansByStatusId(userId, Status.NOT_CONFIRMED.getValue());
+		} else if (criteria.equals("libraryCard")) {
+			catalogItemBeanList = dbManager.getUserCatalogItemBeansByStatusId(userId, Status.LIBRARY_CARD.getValue());
+		}
+		return catalogItemBeanList;
+	}
 }
