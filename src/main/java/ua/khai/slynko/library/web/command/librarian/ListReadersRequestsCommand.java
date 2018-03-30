@@ -23,8 +23,7 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
 public class ListReadersRequestsCommand extends Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
+	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
 		if (isOpenRequestCommand(request)) {
 			findCatalogItemRequestBean(request);
 			return Path.PAGE_CONFIRM_REQUEST_FORM;
