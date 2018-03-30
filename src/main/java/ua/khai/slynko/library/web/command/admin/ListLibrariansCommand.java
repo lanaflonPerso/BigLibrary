@@ -5,14 +5,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ua.khai.slynko.library.Path;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
+import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
 /**
  * Lists librarians.
@@ -23,29 +24,39 @@ import ua.khai.slynko.library.web.abstractCommand.Command;
 public class ListLibrariansCommand extends Command {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-		HttpSession session = request.getSession();
-		String address = Path.PAGE_LIST_USERS;
-		String userId = request.getParameter("userId");
-		if (userId != null) {
-			DBManager.getInstance().removeUserById(Long.parseLong(userId));
-			session.setAttribute("librarianDeleteIsSuccessful", true);
-			request.setAttribute("sendRedirect", true);
-			session.setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
-			address = Path.PAGE_HOME_REDERECT;
-		} else {
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			List<User> listLibrarians = DBManager.getInstance().findUsers(Role.LIBRARIAN.getValue(), firstName, lastName);
-
-			if (listLibrarians == null || listLibrarians.size() == 0) {
-				request.setAttribute("noMatchesFound", true);
-			} else {
-				listLibrarians.sort(Comparator.comparing(User::getLastName));
-				session.setAttribute("listUsers", listLibrarians);
-			}
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		if (isRemoveLibrarianCommand(request)) {
+			removeLibrarian(request);
+			return Path.PAGE_HOME_REDERECT;
 		}
-		return address;
+		findLibrariansAndSort(request);
+		return Path.PAGE_LIST_USERS;
+	}
+
+	private boolean isRemoveLibrarianCommand(HttpServletRequest request) {
+		return request.getParameter("userId") != null;
+	}
+
+	private void removeLibrarian(HttpServletRequest request) throws DBException	{
+		DBManager.getInstance().removeUserById(Long.parseLong(request.getParameter("userId")));
+		populateLibrarianRemovedSuccessfully(request);
+		CommandUtils.setRedirect(request);
+	}
+
+	private void populateLibrarianRemovedSuccessfully(HttpServletRequest request) {
+		request.getSession().setAttribute("librarianDeleteIsSuccessful", true);
+		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
+	}
+
+	private void findLibrariansAndSort(HttpServletRequest request) throws DBException	{
+		List<User> listLibrarians = DBManager.getInstance().findUsers(Role.LIBRARIAN.getValue(),
+				request.getParameter("firstName"),
+				request.getParameter("lastName"));
+		if (listLibrarians == null || listLibrarians.size() == 0) {
+			request.setAttribute("noMatchesFound", true);
+		} else {
+			listLibrarians.sort(Comparator.comparing(User::getLastName));
+			request.getSession().setAttribute("listUsers", listLibrarians);
+		}
 	}
 }
