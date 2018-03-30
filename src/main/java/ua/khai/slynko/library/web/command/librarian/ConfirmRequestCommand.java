@@ -10,7 +10,7 @@ import ua.khai.slynko.library.db.Status;
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
-import ua.khai.slynko.library.validation.model.CatalogItemRequest;
+import ua.khai.slynko.library.validation.model.CatalogItemRequestForm;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
@@ -48,8 +48,9 @@ public class ConfirmRequestCommand extends Command {
 		request.setAttribute("sendRedirect", true);
 		request.getSession().setAttribute("requestIsDeletedSuccessfully", true);
 	}
+
 	private boolean inputDataIsValid(HttpServletRequest request) throws AppException {
-		return new CatalogItemRequest(request.getParameter("bookStatus"),
+		return new CatalogItemRequestForm(request.getParameter("bookStatus"),
 				request.getParameter("penaltySize"),
 				request.getParameter("dateTo"))
 				.validateAndPrefillRequestWithErrors(request);
@@ -58,7 +59,8 @@ public class ConfirmRequestCommand extends Command {
 	private void updateBookRequestDateFromAndDateToAndPenaltySize(HttpServletRequest request) throws DBException {
 		CatalogItemRequestBean catalogItemRequestBean = (CatalogItemRequestBean) request.getSession()
 				.getAttribute("catalogItemRequestBean");
-		DBManager.getInstance().updateCatalogItemRequestDateFromDateToPenaltySizeById(new Date(), CommandUtils.getDateTo(request),
+		DBManager.getInstance().updateCatalogItemRequestDateFromDateToPenaltySizeById(new Date(),
+				CommandUtils.getDateTo(request),
 				Integer.parseInt(request.getParameter("penaltySize")),
 				Status.getByKey(request.getParameter("bookStatus")).getValue(), catalogItemRequestBean.getId(),
 				true, catalogItemRequestBean.getUserEmail());

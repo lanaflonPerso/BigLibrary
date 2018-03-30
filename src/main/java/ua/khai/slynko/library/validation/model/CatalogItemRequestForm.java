@@ -14,12 +14,12 @@ import java.util.regex.Pattern;
 
 import static ua.khai.slynko.library.constant.Constants.DATE_PATTERN;
 
-public class CatalogItemRequest {
+public class CatalogItemRequestForm {
   private String confirmationType;
   private String penaltySize;
   private String dateTo;
 
-  public CatalogItemRequest(String confirmationType, String penaltySize, String dateTo)  {
+  public CatalogItemRequestForm(String confirmationType, String penaltySize, String dateTo) {
     this.confirmationType = confirmationType;
     this.penaltySize = penaltySize;
     this.dateTo = dateTo;
