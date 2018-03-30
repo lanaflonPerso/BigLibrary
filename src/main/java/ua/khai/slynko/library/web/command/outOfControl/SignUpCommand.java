@@ -10,6 +10,7 @@ import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
+import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.mail.MailHelper;
 import ua.khai.slynko.library.security.Password;
 import ua.khai.slynko.library.validation.model.UserForm;
@@ -26,31 +27,17 @@ public class SignUpCommand extends Command {
 	private static final Logger LOG = Logger.getLogger(SignUpCommand.class);
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-
+	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
 		if (request.getSession().getAttribute("userRole") != null) {
 			throw new AppException("You do not have permission to access the requested resource");
 		}
 
-		String address;
 		if (!inputDataIsValid(request)) {
-			address = Path.PAGE_SIGN_UP;
+			return Path.PAGE_SIGN_UP;
 		} else {
-			DBManager.getInstance().createReader(buildUser(request));
-			try {
-				MailHelper.sendMail(request.getParameter("email")
-						, "Library registration"
-						, "Registration is successful!" + " Your username is: " + request.getParameter("login") + " , password: "
-								+ request.getParameter("password1"));
-			} catch (Exception ex) {
-				LOG.trace("Mail has not been sent");
-			}
-			request.getSession().setAttribute("signUpSuccessful", true);
-			request.setAttribute("sendRedirect", true);
-			address = Path.PAGE_LOGIN_REDERECT;
+			signUp(request);
+			return Path.PAGE_LOGIN_REDERECT;
 		}
-		return address;
 	}
 
 	private boolean inputDataIsValid(HttpServletRequest request) throws AppException {
@@ -76,5 +63,19 @@ public class SignUpCommand extends Command {
 		reader.setEmail(request.getParameter("email"));
 		reader.setRoleId(Role.READER.getValue());
 		return reader;
+	}
+
+	private void signUp(HttpServletRequest request) throws DBException {
+		DBManager.getInstance().createReader(buildUser(request));
+		try {
+			MailHelper.sendMail(request.getParameter("email")
+					, "Library registration"
+					, "Registration is successful!" + " Your username is: " + request.getParameter("login") + " , password: "
+							+ request.getParameter("password1"));
+		} catch (Exception ex) {
+			LOG.trace("Mail has not been sent");
+		}
+		request.getSession().setAttribute("signUpSuccessful", true);
+		request.setAttribute("sendRedirect", true);
 	}
 }
