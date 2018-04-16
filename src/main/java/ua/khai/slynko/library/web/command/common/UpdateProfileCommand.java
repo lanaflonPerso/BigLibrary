@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -32,7 +33,7 @@ public class UpdateProfileCommand extends Command {
 
 	private void updateUser(HttpServletRequest request) throws DBException {
 		User user = buildUser(request);
-		DBManager.getInstance().updateUser(user);
+		new UserDao().updateUser(user);
 		request.getSession().setAttribute("user", user);
 		request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_SETTINGS);
 		request.getSession().setAttribute("profileUpdateIsSuccessful", true);

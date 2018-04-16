@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Status;
+import ua.khai.slynko.library.db.entity.Status;
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
@@ -38,7 +38,7 @@ public class ListReadersRequestsCommand extends Command {
 	}
 
 	private void findCatalogItemRequestsAndSort(HttpServletRequest request) throws DBException {
-		List<CatalogItemRequestBean> catalogItemRequestsList = DBManager.getInstance()
+		List<CatalogItemRequestBean> catalogItemRequestsList = new CatalogItemDao()
 				.findCatalogItemRequests(Status.NOT_CONFIRMED.getValue());
 		if (catalogItemRequestsList == null || catalogItemRequestsList.size() == 0) {
 			request.setAttribute("noMatchesFound", true);

@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -66,7 +66,7 @@ public class SignUpCommand extends Command {
 	}
 
 	private void signUp(HttpServletRequest request) throws DBException {
-		DBManager.getInstance().createReader(buildUser(request));
+		new UserDao().createReader(buildUser(request));
 		try {
 			MailHelper.sendMail(request.getParameter("email")
 					, "Library registration"

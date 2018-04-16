@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
 
@@ -48,7 +48,7 @@ public class AlreadyLoggedInFilter implements Filter {
 					Cookie c = cookies[i];
 					if (c.getName().equals("userId")) {
 						try {
-							user = DBManager.getInstance().findUser(Long.parseLong(c.getValue()));
+							user = new UserDao().findUser(Long.parseLong(c.getValue()));
 							userRole = Role.getRole(user);
 							session.setAttribute("user", user);
 							session.setAttribute("userRole", userRole);

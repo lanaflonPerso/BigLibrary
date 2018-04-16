@@ -1,4 +1,4 @@
-package ua.khai.slynko.library.db;
+package ua.khai.slynko.library.db.entity;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

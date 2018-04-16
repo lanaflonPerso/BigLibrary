@@ -8,7 +8,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -36,9 +37,9 @@ public class ForgotPasswordCommand extends Command {
 	private User findUser(HttpServletRequest request) throws DBException {
 		User user = null;
 		if (isLoginEntered(request)) {
-			user = DBManager.getInstance().findUserByLogin(request.getParameter("loginOrEmail"));
+			user = new UserDao().findUserByLogin(request.getParameter("loginOrEmail"));
 		} else if (isEmailEntered(request)) {
-			user = DBManager.getInstance().findUserByEmail(request.getParameter("loginOrEmail"));
+			user = new UserDao().findUserByEmail(request.getParameter("loginOrEmail"));
 		}
 		return user;
 	}
@@ -59,7 +60,7 @@ public class ForgotPasswordCommand extends Command {
 				MailHelper.sendMail(user.getEmail(),
 						"Library forgot password",
 						"Your login is: " + user.getLogin() + ", new account password is: " + newPassword);
-				DBManager.getInstance().updateUserPasswordByEmail(Password.hash(newPassword), user.getEmail());
+				new UserDao().updateUserPasswordByEmail(Password.hash(newPassword), user.getEmail());
 				request.getSession().setAttribute("passwordRestorationIsSuccessful", true);
 			} catch (MessagingException ex) {
 				LOG.trace("Mail has not been sent. Some error with mail sending");

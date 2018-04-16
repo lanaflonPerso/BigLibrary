@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
 
@@ -49,10 +49,10 @@ public class DoLogoutFilter implements Filter {
 		Role userRole = (Role) session.getAttribute("userRole");
 		if (user != null && userRole != null) {
 			try {
-				if (userRole == Role.READER && DBManager.getInstance().isUserBlocked(user.getId())) {
+				if (userRole == Role.READER && new UserDao().isUserBlocked(user.getId())) {
 					accessAllowed = false;
 				}
-				if (userRole == Role.LIBRARIAN && DBManager.getInstance().findUser(user.getId()) == null) {
+				if (userRole == Role.LIBRARIAN && new UserDao().findUser(user.getId()) == null) {
 					accessAllowed = false;
 				}
 			} catch (DBException e) {

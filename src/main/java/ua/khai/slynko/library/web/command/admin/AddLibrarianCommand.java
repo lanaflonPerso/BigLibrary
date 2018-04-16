@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -48,7 +48,7 @@ public class AddLibrarianCommand extends Command {
 	}
 
 	private void createLibrarian(HttpServletRequest request) throws DBException	{
-		DBManager.getInstance().createUser(buildLibrarian(request));
+		new UserDao().createUser(buildLibrarian(request));
 		populateRequestSuccess(request);
 		CommandUtils.setRedirect(request);
 	}

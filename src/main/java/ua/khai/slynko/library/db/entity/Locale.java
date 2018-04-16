@@ -1,4 +1,4 @@
-package ua.khai.slynko.library.db;
+package ua.khai.slynko.library.db.entity;
 
 /**
  * Locale entity.

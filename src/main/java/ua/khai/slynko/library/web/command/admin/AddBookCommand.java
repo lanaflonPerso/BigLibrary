@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -42,7 +42,7 @@ public class AddBookCommand extends Command {
     }
 
     private void createCatalogItem(HttpServletRequest request) throws DBException {
-        DBManager.getInstance().createCatalogItem(buildCatalogItem(request));
+        new CatalogItemDao().createCatalogItem(buildCatalogItem(request));
         populateRequestSuccess(request);
         CommandUtils.setRedirect(request);
     }

@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
@@ -26,7 +27,7 @@ public class BlockUnblockUserCommand extends Command {
 
 	private void toggleUserBlockStatus(HttpServletRequest request) throws DBException {
 		Long userId = Long.parseLong(request.getParameter("userId"));
-		DBManager.getInstance().toggleUserBlockStatus(userId);
+		new UserDao().toggleUserBlockStatus(userId);
 		populateRequestSuccess(request);
 		CommandUtils.setRedirect(request);
 	}

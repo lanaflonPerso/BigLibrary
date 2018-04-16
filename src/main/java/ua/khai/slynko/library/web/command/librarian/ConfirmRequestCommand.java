@@ -6,9 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Status;
+import ua.khai.slynko.library.db.entity.Status;
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
+import ua.khai.slynko.library.db.dao.LibraryCardItemDao;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.validation.model.CatalogItemRequestForm;
@@ -45,7 +46,7 @@ public class ConfirmRequestCommand extends Command {
 	private void deleteBookRequest(HttpServletRequest request) throws DBException	{
 		CatalogItemRequestBean catalogItemRequestBean = (CatalogItemRequestBean) request.getSession()
 				.getAttribute("catalogItemRequestBean");
-		DBManager.getInstance().removeLibraryCardItemById(Collections.singletonList(catalogItemRequestBean.getId().toString()));
+		new LibraryCardItemDao().removeLibraryCardItemById(Collections.singletonList(catalogItemRequestBean.getId().toString()));
 		request.setAttribute("sendRedirect", true);
 		request.getSession().setAttribute("requestIsDeletedSuccessfully", true);
 	}
@@ -60,7 +61,7 @@ public class ConfirmRequestCommand extends Command {
 	private void updateBookRequestDateFromAndDateToAndPenaltySize(HttpServletRequest request) throws DBException {
 		CatalogItemRequestBean catalogItemRequestBean = (CatalogItemRequestBean) request.getSession()
 				.getAttribute("catalogItemRequestBean");
-		DBManager.getInstance().updateCatalogItemRequestDateFromDateToPenaltySizeById(new Date(),
+		new CatalogItemDao().updateCatalogItemRequestDateFromDateToPenaltySizeById(new Date(),
 				CommandUtils.getDateTo(request),
 				Integer.parseInt(request.getParameter("penaltySize")),
 				Status.getByKey(request.getParameter("bookStatus")).getValue(), catalogItemRequestBean.getId(),

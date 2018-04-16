@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
 import ua.khai.slynko.library.db.entity.User;
 
 /**

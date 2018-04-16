@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Status;
+import ua.khai.slynko.library.db.entity.Status;
 import ua.khai.slynko.library.db.bean.UserCatalogItemBean;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
+import ua.khai.slynko.library.db.dao.LibraryCardItemDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -46,11 +47,11 @@ public class ListPersonalAreaCommand extends Command {
 		}
 		List<String> beanIds = new ArrayList<>(Arrays.asList(request.getParameterValues("beanId")));
 		if ("notConfirmed".equals(findCriteria)) {
-			DBManager.getInstance().removeLibraryCardItemById(beanIds);
+			new LibraryCardItemDao().removeLibraryCardItemById(beanIds);
 			request.getSession().setAttribute("requestIsCanceledSuccessfully", true);
 			request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_PERSONAL_AREA);
 		} else if ("libraryCard".equals(findCriteria)) {
-			DBManager.getInstance().updateLibraryCardsItemIds(beanIds, Status.CLOSED.getValue());
+			new LibraryCardItemDao().updateLibraryCardsItemIds(beanIds, Status.CLOSED.getValue());
 			request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_PERSONAL_AREA_LIBRARY_CARD);
 			request.getSession().setAttribute("bookIsReturnedSuccessfully", true);
 		}
@@ -62,7 +63,7 @@ public class ListPersonalAreaCommand extends Command {
 		if (findCriteria != null) {
 			request.setAttribute("bookStatus", findCriteria);
 		}
-		List<UserCatalogItemBean> catalogItemBeanList =	DBManager.getInstance().findCatalogItemsBy(
+		List<UserCatalogItemBean> catalogItemBeanList =	new CatalogItemDao().findCatalogItemsBy(
 				((User) request.getSession().getAttribute("user")).getId(), request.getParameter("bookStatus"));
 		if (catalogItemBeanList == null || catalogItemBeanList.size() == 0) {
 			request.setAttribute("noMatchesFound", true);

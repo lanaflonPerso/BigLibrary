@@ -1,6 +1,4 @@
-package ua.khai.slynko.library.db;
-
-import ua.khai.slynko.library.db.entity.User;
+package ua.khai.slynko.library.db.entity;
 
 /**
  * Role entity.

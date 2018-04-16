@@ -1,6 +1,7 @@
 package ua.khai.slynko.library.validation.model;
 
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
 
@@ -82,10 +83,10 @@ public class UserForm
         } else if (login.contains(" ")) {
             request.setAttribute(loginMessage, rb.getString("signup.loginContainsSpace"));
             isValid = false;
-        } else if (user == null && DBManager.getInstance().findUserByLogin(login) != null) {
+        } else if (user == null && new UserDao().findUserByLogin(login) != null) {
             request.setAttribute(loginMessage, rb.getString("signup.loginIsTaken"));
             isValid = false;
-        } else if (user != null && DBManager.getInstance().findUserByEmailToUpdate(email, user.getId()) != null) {
+        } else if (user != null && new UserDao().findUserByEmailToUpdate(email, user.getId()) != null) {
             request.setAttribute(loginMessage, rb.getString("signup.loginIsTaken"));
             isValid = false;
         } else {
@@ -104,10 +105,10 @@ public class UserForm
         } else if (email.contains(" ")) {
             request.setAttribute(emailMessage, rb.getString("signup.emailContainsSpace"));
             isValid = false;
-        } else if (user == null && DBManager.getInstance().findUserByEmail(email) != null) {
+        } else if (user == null && new UserDao().findUserByEmail(email) != null) {
             request.setAttribute(emailMessage, rb.getString("signup.emailIsTaken"));
             isValid = false;
-        } else if (user != null && DBManager.getInstance().findUserByEmailToUpdate(email, user.getId()) != null) {
+        } else if (user != null && new UserDao().findUserByEmailToUpdate(email, user.getId()) != null) {
             request.setAttribute(emailMessage, rb.getString("signup.emailIsTaken"));
             isValid = false;
         } else {

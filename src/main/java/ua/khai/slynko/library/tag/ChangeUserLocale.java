@@ -5,8 +5,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.log4j.Logger;
 
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Locale;
+import ua.khai.slynko.library.db.entity.Locale;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
 
@@ -32,7 +32,7 @@ public class ChangeUserLocale extends TagSupport {
 		if (user != null && Locale.contains(locale)) {
 			Integer localeId = Locale.valueOf(locale.toUpperCase()).getValue();
 			try {
-				DBManager.getInstance().setUserLocale(localeId, user.getId());
+				new UserDao().setUserLocale(localeId, user.getId());
 				String newLocale = Locale.values()[localeId - 1].toString();
 				user.setLocale(newLocale);
 				session.setAttribute("user", user);

@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.security.Password;
@@ -30,12 +30,12 @@ public class LoginCommand extends Command {
 			throw new AppException("Login/password cannot be empty");
 		}
 
-		User user = DBManager.getInstance().findUserByLogin(request.getParameter("login"));
+		User user = new UserDao().findUserByLogin(request.getParameter("login"));
 		if (user == null || !password.equals(user.getPassword())) {
 			throw new AppException("Cannot find user with such login/password");
 		}
 
-		boolean userIdBlocked = DBManager.getInstance().isUserBlocked(user.getId());
+		boolean userIdBlocked = new UserDao().isUserBlocked(user.getId());
 		if (userIdBlocked) {
 			throw new AppException("User is blocked. Please contact your system administrator.");
 		}

@@ -1,8 +1,9 @@
 package ua.khai.slynko.library.validation.model;
 
 import org.apache.commons.lang3.StringUtils;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.exception.DBException;
 import ua.khai.slynko.library.web.command.utils.CommandUtils;
 
@@ -37,7 +38,7 @@ public class CatalogItemRequestForm {
       rb = ResourceBundle.getBundle("resources", new Locale(currentLocale));
     }
 
-    if (DBManager.getInstance().getCatalogItemInstancesByLibraryCardId(catalogItemRequestBean.getId()) == 0) {
+    if (new CatalogItemDao().getCatalogItemInstancesByLibraryCardId(catalogItemRequestBean.getId()) == 0) {
       request.setAttribute("validationMessage", rb.getString("confirmRequest.noSuchBook"));
       isValid = false;
     }

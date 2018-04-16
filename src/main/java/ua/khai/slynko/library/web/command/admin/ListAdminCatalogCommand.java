@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -52,7 +53,7 @@ public class ListAdminCatalogCommand extends Command {
 	}
 
 	private void findBooksAndSort(HttpServletRequest request) throws DBException {
-		List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(
+		List<CatalogItem> catalogItems = new CatalogItemDao().getListCatalogItems(
 				request.getParameter("author"),
 				request.getParameter("title"));
 		if (catalogItems == null || catalogItems.size() == 0) {

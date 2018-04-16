@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -47,7 +47,7 @@ public class ListReadersCommand extends Command {
 				.ifPresent(user -> {
 					request.setAttribute("user", user);
 					try	{
-						request.setAttribute("userIdBlocked", DBManager.getInstance().isUserBlocked(user.getId()));
+						request.setAttribute("userIdBlocked", new UserDao().isUserBlocked(user.getId()));
 					}	catch (DBException e)	{
 						LOG.error(e.getMessage());
 					}
@@ -55,7 +55,7 @@ public class ListReadersCommand extends Command {
 	}
 
 	private void findReadersAndSort(HttpServletRequest request) throws DBException {
-		List<User> listReaders = DBManager.getInstance().findUsers(Role.READER.getValue(),
+		List<User> listReaders = new UserDao().findUsers(Role.READER.getValue(),
 				request.getParameter("firstName"),
 				request.getParameter("lastName"));
 

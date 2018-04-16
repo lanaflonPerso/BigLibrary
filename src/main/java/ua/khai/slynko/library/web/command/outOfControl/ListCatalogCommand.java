@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Status;
+import ua.khai.slynko.library.db.entity.Status;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
@@ -43,15 +43,15 @@ public class ListCatalogCommand extends Command {
 	private void sendBookRequest(HttpServletRequest request) throws DBException {
 		List<String> itemIds = new ArrayList<>(Arrays.asList(request.getParameterValues("itemId")));
 		User user = (User) request.getSession().getAttribute("user");
-		itemIds.removeAll(DBManager.getInstance().findCatalogItemIdsByUserIdAndStatusId(
+		itemIds.removeAll(new CatalogItemDao().findCatalogItemIdsByUserIdAndStatusId(
 				user.getId(), Status.NOT_CONFIRMED.getValue()));
-		DBManager.getInstance().sendCatalogItemRequest(user.getId(), itemIds);
+		new CatalogItemDao().sendCatalogItemRequest(user.getId(), itemIds);
 		request.getSession().setAttribute("bookRequestIsSent", true);
 		request.setAttribute("sendRedirect", true);
 	}
 
 	private void findBooksAndSort(HttpServletRequest request) throws DBException {
-		List<CatalogItem> catalogItems = DBManager.getInstance().getListCatalogItems(
+		List<CatalogItem> catalogItems = new CatalogItemDao().getListCatalogItems(
 				request.getParameter("author"), request.getParameter("title"));
 		if (catalogItems == null || catalogItems.size() == 0)	{
 			request.setAttribute("noMatchesFound", true);

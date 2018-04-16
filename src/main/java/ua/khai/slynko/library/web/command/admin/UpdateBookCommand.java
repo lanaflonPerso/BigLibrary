@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
+import ua.khai.slynko.library.db.ConnectionManager;
+import ua.khai.slynko.library.db.dao.CatalogItemDao;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -36,14 +37,14 @@ public class UpdateBookCommand extends Command {
 	}
 
 	private void deleteBook(HttpServletRequest request) throws DBException	{
-		DBManager.getInstance().removeCatalogItem(
+		new CatalogItemDao().removeCatalogItem(
 				((CatalogItem) request.getSession().getAttribute("catalogItem")).getId());
 		request.setAttribute("sendRedirect", true);
 		request.getSession().setAttribute("bookDeleteIsSuccessful", true);
 	}
 
 	private void updateBook(HttpServletRequest request) throws DBException	{
-		DBManager.getInstance().updateCatalogItem(updateCatalogItem(request,
+		new CatalogItemDao().updateCatalogItem(updateCatalogItem(request,
 				(CatalogItem) request.getSession().getAttribute("catalogItem")));
 		request.setAttribute("sendRedirect", true);
 		request.getSession().setAttribute("bookUpdateIsSuccessful", true);

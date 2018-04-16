@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ua.khai.slynko.library.constant.Constants;
-import ua.khai.slynko.library.db.DBManager;
-import ua.khai.slynko.library.db.Role;
+import ua.khai.slynko.library.db.entity.Role;
+import ua.khai.slynko.library.db.dao.UserDao;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -39,7 +39,7 @@ public class ListLibrariansCommand extends Command {
 	}
 
 	private void removeLibrarian(HttpServletRequest request) throws DBException	{
-		DBManager.getInstance().removeUserById(Long.parseLong(request.getParameter("userId")));
+		new UserDao().removeUserById(Long.parseLong(request.getParameter("userId")));
 		populateLibrarianRemovedSuccessfully(request);
 		CommandUtils.setRedirect(request);
 	}
@@ -50,7 +50,7 @@ public class ListLibrariansCommand extends Command {
 	}
 
 	private void findLibrariansAndSort(HttpServletRequest request) throws DBException	{
-		List<User> listLibrarians = DBManager.getInstance().findUsers(Role.LIBRARIAN.getValue(),
+		List<User> listLibrarians = new UserDao().findUsers(Role.LIBRARIAN.getValue(),
 				request.getParameter("firstName"),
 				request.getParameter("lastName"));
 		if (listLibrarians == null || listLibrarians.size() == 0) {
