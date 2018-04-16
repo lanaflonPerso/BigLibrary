@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -64,19 +64,19 @@ public class AlreadyLoggedInFilter implements Filter {
 			address = (String) session.getAttribute("redirectPage");
 			if (userRole == Role.ADMIN) {
 				if (address == null) {
-					address = Path.COMMAND_LIST_ADMIN_CATALOG;
+					address = Constants.Path.COMMAND_LIST_ADMIN_CATALOG;
 				}
 				initRequestAdminMessages((HttpServletRequest) request);
 			}
 			if (userRole == Role.READER) {
 				if (address == null) {
-					address = Path.COMMAND_LIST_CATALOG;
+					address = Constants.Path.COMMAND_LIST_CATALOG;
 				}
 				initRequestReaderMessages((HttpServletRequest) request);
 			}
 			if (userRole == Role.LIBRARIAN) {
 				if (address == null) {
-					address = Path.COMMAND_READERS_REQUESTS;
+					address = Constants.Path.COMMAND_READERS_REQUESTS;
 				}
 				initRequestLibrarianMessages((HttpServletRequest) request);
 			}

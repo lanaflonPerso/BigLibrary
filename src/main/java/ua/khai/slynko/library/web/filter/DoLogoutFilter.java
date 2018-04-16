@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -38,7 +38,7 @@ public class DoLogoutFilter implements Filter {
 		if (isAccessAllowed(request)) {
 			chain.doFilter(request, response);
 		} else {
-			request.getRequestDispatcher(Path.COMMAND_LOGOUT).forward(request, response);
+			request.getRequestDispatcher(Constants.Path.COMMAND_LOGOUT).forward(request, response);
 		}
 	}
 

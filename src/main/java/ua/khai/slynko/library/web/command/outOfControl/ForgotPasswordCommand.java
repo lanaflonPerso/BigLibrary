@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
@@ -30,7 +30,7 @@ public class ForgotPasswordCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
 		restorePasswordAndSendEmail(request);
-		return Path.PAGE_LOGIN_REDERECT;
+		return Constants.Path.PAGE_LOGIN_REDERECT;
 	}
 
 	private User findUser(HttpServletRequest request) throws DBException {

@@ -3,7 +3,7 @@ package ua.khai.slynko.library.web.command.admin;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -26,10 +26,10 @@ public class AddLibrarianCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws AppException {
 		if (!inputDataIsValid(request)) {
-			return Path.PAGE_ADD_LIBRARIAN;
+			return Constants.Path.PAGE_ADD_LIBRARIAN;
 		} else {
 			createLibrarian(request);
-			return Path.PAGE_LOGIN_REDERECT;
+			return Constants.Path.PAGE_LOGIN_REDERECT;
 		}
 	}
 
@@ -66,6 +66,6 @@ public class AddLibrarianCommand extends Command {
 
 	private void populateRequestSuccess(HttpServletRequest request) {
 		request.getSession().setAttribute("librarianAddIsSuccessful", true);
-		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
+		request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_LIBRARIANS);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Status;
 import ua.khai.slynko.library.db.bean.UserCatalogItemBean;
@@ -28,10 +28,10 @@ public class ListPersonalAreaCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
 		if (isLibraryCardSelected(request)) {
 			removeOrUpdateLibraryCard(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		} else {
 			findCatalogItems(request);
-			return Path.PAGE_LIST_CATALOG_ITEMS;
+			return Constants.Path.PAGE_LIST_CATALOG_ITEMS;
 		}
 	}
 
@@ -48,10 +48,10 @@ public class ListPersonalAreaCommand extends Command {
 		if ("notConfirmed".equals(findCriteria)) {
 			DBManager.getInstance().removeLibraryCardItemById(beanIds);
 			request.getSession().setAttribute("requestIsCanceledSuccessfully", true);
-			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_PERSONAL_AREA);
+			request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_PERSONAL_AREA);
 		} else if ("libraryCard".equals(findCriteria)) {
 			DBManager.getInstance().updateLibraryCardsItemIds(beanIds, Status.CLOSED.getValue());
-			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_PERSONAL_AREA_LIBRARY_CARD);
+			request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_PERSONAL_AREA_LIBRARY_CARD);
 			request.getSession().setAttribute("bookIsReturnedSuccessfully", true);
 		}
 		request.setAttribute("sendRedirect", true);

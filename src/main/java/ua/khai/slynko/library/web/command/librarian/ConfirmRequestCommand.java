@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ua.khai.slynko.library.Path;
+
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Status;
 import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
@@ -28,12 +29,12 @@ public class ConfirmRequestCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		if (isDeleteRequestCommand(request)) {
 			deleteBookRequest(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		} else if (!inputDataIsValid(request)) {
-			return Path.PAGE_CONFIRM_REQUEST_FORM;
+			return Constants.Path.PAGE_CONFIRM_REQUEST_FORM;
 		} else {
 			updateBookRequestDateFromAndDateToAndPenaltySize(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		}
 	}
 

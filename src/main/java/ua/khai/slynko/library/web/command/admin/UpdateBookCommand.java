@@ -3,7 +3,7 @@ package ua.khai.slynko.library.web.command.admin;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
@@ -22,12 +22,12 @@ public class UpdateBookCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws AppException {
 		if (isDeleteBookCommand(request)) {
 			deleteBook(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		} else if (!isInputDataValid(request)) {
-			return Path.PAGE_MODIFY_BOOK;
+			return Constants.Path.PAGE_MODIFY_BOOK;
 		} else {
 			updateBook(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		}
 	}
 

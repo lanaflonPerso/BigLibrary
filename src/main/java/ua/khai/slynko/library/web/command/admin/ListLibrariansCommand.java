@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -27,10 +27,10 @@ public class ListLibrariansCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		if (isRemoveLibrarianCommand(request)) {
 			removeLibrarian(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		}  else	{
 			findLibrariansAndSort(request);
-			return Path.PAGE_LIST_USERS;
+			return Constants.Path.PAGE_LIST_USERS;
 		}
 	}
 
@@ -46,7 +46,7 @@ public class ListLibrariansCommand extends Command {
 
 	private void populateLibrarianRemovedSuccessfully(HttpServletRequest request) {
 		request.getSession().setAttribute("librarianDeleteIsSuccessful", true);
-		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_LIBRARIANS);
+		request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_LIBRARIANS);
 	}
 
 	private void findLibrariansAndSort(HttpServletRequest request) throws DBException	{

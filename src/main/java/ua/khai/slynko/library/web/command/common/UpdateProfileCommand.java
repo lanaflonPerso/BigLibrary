@@ -2,8 +2,8 @@ package ua.khai.slynko.library.web.command.common;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import ua.khai.slynko.library.Path;
+
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.AppException;
@@ -23,10 +23,10 @@ public class UpdateProfileCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		if (!inputDataIsValid(request)) {
-			return Path.PAGE_UPDATE_PROFILE;
+			return Constants.Path.PAGE_UPDATE_PROFILE;
 		} else {
 			updateUser(request);
-			return Path.PAGE_HOME_REDERECT;
+			return Constants.Path.PAGE_HOME_REDERECT;
 		}
 	}
 
@@ -34,7 +34,7 @@ public class UpdateProfileCommand extends Command {
 		User user = buildUser(request);
 		DBManager.getInstance().updateUser(user);
 		request.getSession().setAttribute("user", user);
-		request.getSession().setAttribute("redirectPage", Path.COMMAND_SETTINGS);
+		request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_SETTINGS);
 		request.getSession().setAttribute("profileUpdateIsSuccessful", true);
 		request.setAttribute("sendRedirect", true);
 	}

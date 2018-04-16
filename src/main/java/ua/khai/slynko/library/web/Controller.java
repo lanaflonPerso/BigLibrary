@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 import ua.khai.slynko.library.web.command.CommandContainer;
@@ -39,7 +39,7 @@ public class Controller extends HttpServlet {
 			throws IOException, ServletException {
 		String commandName = request.getParameter("command");
 		Command command = CommandContainer.get(commandName);
-		String address = Path.PAGE_ERROR_PAGE;
+		String address = Constants.Path.PAGE_ERROR_PAGE;
 		try {
 			address = command.execute(request, response);
 		} catch (AppException ex) {

@@ -16,7 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
 
@@ -43,7 +43,7 @@ public class CommandAccessFilter implements Filter {
 		} else {
 			String errorMessasge = "You do not have permission to access the requested resource";
 			request.setAttribute("errorMessage", errorMessasge);
-			request.getRequestDispatcher(Path.PAGE_ERROR_PAGE)
+			request.getRequestDispatcher(Constants.Path.PAGE_ERROR_PAGE)
 					.forward(request, response);
 		}
 	}

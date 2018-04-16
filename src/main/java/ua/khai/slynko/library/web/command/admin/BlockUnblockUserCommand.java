@@ -3,7 +3,7 @@ package ua.khai.slynko.library.web.command.admin;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.exception.AppException;
 import ua.khai.slynko.library.exception.DBException;
@@ -21,7 +21,7 @@ public class BlockUnblockUserCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		toggleUserBlockStatus(request);
-		return Path.PAGE_HOME_REDERECT;
+		return Constants.Path.PAGE_HOME_REDERECT;
 	}
 
 	private void toggleUserBlockStatus(HttpServletRequest request) throws DBException {
@@ -31,6 +31,6 @@ public class BlockUnblockUserCommand extends Command {
 		CommandUtils.setRedirect(request);
 	}
 	private void populateRequestSuccess(HttpServletRequest request) {
-		request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_READERS);
+		request.getSession().setAttribute("redirectPage", Constants.Path.COMMAND_LIST_READERS);
 	}
 }

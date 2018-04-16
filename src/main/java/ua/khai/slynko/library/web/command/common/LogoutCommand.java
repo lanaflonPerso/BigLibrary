@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.web.abstractCommand.Command;
 
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class LogoutCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		invalidateSession(request);
 		cleanUserIdCookie(request, response);
-		return Path.PAGE_LOGIN;
+		return Constants.Path.PAGE_LOGIN;
 	}
 
 	private void invalidateSession(HttpServletRequest request) {

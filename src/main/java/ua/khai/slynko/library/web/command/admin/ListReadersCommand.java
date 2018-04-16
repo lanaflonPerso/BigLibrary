@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -29,10 +29,10 @@ public class ListReadersCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		if (isUserDetailsCommand(request)) {
 			findReaderDetails(request);
-			return Path.PAGE_USER_DETAILS;
+			return Constants.Path.PAGE_USER_DETAILS;
 		} else {
 			findReadersAndSort(request);
-			return Path.PAGE_LIST_USERS;
+			return Constants.Path.PAGE_LIST_USERS;
 		}
 	}
 

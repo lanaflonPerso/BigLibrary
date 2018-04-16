@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.AppException;
@@ -26,13 +26,13 @@ public class ListAdminCatalogCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		if (isAddBookCommand(request)) {
-			return Path.PAGE_ADD_BOOK;
+			return Constants.Path.PAGE_ADD_BOOK;
 		} else if (isModifyBookCommand(request)) {
 			putSelectedBookIntoSession(request);
-			return Path.PAGE_MODIFY_BOOK;
+			return Constants.Path.PAGE_MODIFY_BOOK;
 		} else {
 			findBooksAndSort(request);
-			return Path.PAGE_LIST_ADMIN_CATALOG;
+			return Constants.Path.PAGE_LIST_ADMIN_CATALOG;
 		}
 	}
 

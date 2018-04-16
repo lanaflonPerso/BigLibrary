@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import ua.khai.slynko.library.Path;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.DBManager;
 import ua.khai.slynko.library.db.Role;
 import ua.khai.slynko.library.db.entity.User;
@@ -33,10 +33,10 @@ public class SignUpCommand extends Command {
 		}
 
 		if (!inputDataIsValid(request)) {
-			return Path.PAGE_SIGN_UP;
+			return Constants.Path.PAGE_SIGN_UP;
 		} else {
 			signUp(request);
-			return Path.PAGE_LOGIN_REDERECT;
+			return Constants.Path.PAGE_LOGIN_REDERECT;
 		}
 	}
 
