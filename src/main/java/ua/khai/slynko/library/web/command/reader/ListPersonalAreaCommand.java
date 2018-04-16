@@ -45,11 +45,11 @@ public class ListPersonalAreaCommand extends Command {
 			request.setAttribute("bookStatus", findCriteria);
 		}
 		List<String> beanIds = new ArrayList<>(Arrays.asList(request.getParameterValues("beanId")));
-		if (findCriteria == null || findCriteria.equals("notConfirmed")) {
+		if ("notConfirmed".equals(findCriteria)) {
 			DBManager.getInstance().removeLibraryCardItemById(beanIds);
 			request.getSession().setAttribute("requestIsCanceledSuccessfully", true);
 			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_PERSONAL_AREA);
-		} else if (findCriteria.equals("libraryCard")) {
+		} else if ("libraryCard".equals(findCriteria)) {
 			DBManager.getInstance().updateLibraryCardsItemIds(beanIds, Status.CLOSED.getValue());
 			request.getSession().setAttribute("redirectPage", Path.COMMAND_LIST_PERSONAL_AREA_LIBRARY_CARD);
 			request.getSession().setAttribute("bookIsReturnedSuccessfully", true);
