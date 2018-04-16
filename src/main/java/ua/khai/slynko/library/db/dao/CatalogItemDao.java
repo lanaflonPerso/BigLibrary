@@ -50,7 +50,7 @@ public class CatalogItemDao {
    */
   public List<CatalogItem> findCatalogItems() throws DBException
   {
-    List<CatalogItem> catalogItemsList = new ArrayList<CatalogItem>();
+    List<CatalogItem> catalogItemsList = new ArrayList<>();
     Statement stmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -79,7 +79,7 @@ public class CatalogItemDao {
    * @return List of catalog item entities.
    */
   public List<CatalogItem> findCatalogItemsByAuthor(String author) throws DBException {
-    List<CatalogItem> catalogItemsList = new ArrayList<CatalogItem>();
+    List<CatalogItem> catalogItemsList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -108,7 +108,7 @@ public class CatalogItemDao {
    * @return List of catalog item entities.
    */
   public List<CatalogItem> findCatalogItemsByTitle(String title) throws DBException {
-    List<CatalogItem> catalogItemsList = new ArrayList<CatalogItem>();
+    List<CatalogItem> catalogItemsList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -137,7 +137,7 @@ public class CatalogItemDao {
    * @return List of catalog item entities.
    */
   public List<CatalogItem> findCatalogItemsByAuthorAndTitle(String author, String title) throws DBException {
-    List<CatalogItem> catalogItemsList = new ArrayList<CatalogItem>();
+    List<CatalogItem> catalogItemsList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -325,7 +325,7 @@ public class CatalogItemDao {
    */
   public List<UserCatalogItemBean> getUserCatalogItemBeansByStatusId(Long userId, Integer statusId)
       throws DBException {
-    List<UserCatalogItemBean> orderUserBeanList = new ArrayList<UserCatalogItemBean>();
+    List<UserCatalogItemBean> orderUserBeanList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -358,7 +358,7 @@ public class CatalogItemDao {
    * @return List of order entities.
    */
   public List<CatalogItemRequestBean> findCatalogItemRequests(int statusId) throws DBException {
-    List<CatalogItemRequestBean> catalogItemRequestsList = new ArrayList<CatalogItemRequestBean>();
+    List<CatalogItemRequestBean> catalogItemRequestsList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -389,7 +389,7 @@ public class CatalogItemDao {
    * @return List of catalog item ids entities.
    */
   public List<String> findCatalogItemIdsByUserIdAndStatusId(Long userId, Integer statusId) throws DBException {
-    List<String> itemIdsList = new ArrayList<String>();
+    List<String> itemIdsList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;

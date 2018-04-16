@@ -132,7 +132,7 @@ public class UserDao {
    * @return List of users.
    */
   public List<User> findUsersByRole(Integer roleId) throws DBException {
-    List<User> usersList = new ArrayList<User>();
+    List<User> usersList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -162,7 +162,7 @@ public class UserDao {
    * @return List of users.
    */
   public List<User> findUsersByRoleAndFirstName(Integer roleId, String firstName) throws DBException {
-    List<User> usersList = new ArrayList<User>();
+    List<User> usersList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -193,7 +193,7 @@ public class UserDao {
    * @return List of users.
    */
   public List<User> findUsersByRoleAndLastName(Integer roleId, String lastName) throws DBException {
-    List<User> usersList = new ArrayList<User>();
+    List<User> usersList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
@@ -225,7 +225,7 @@ public class UserDao {
    */
   public List<User> findUsersByRoleAndFirstNameAndLastName(Integer roleId, String firstName, String lastName)
       throws DBException {
-    List<User> usersList = new ArrayList<User>();
+    List<User> usersList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     Connection con = null;
