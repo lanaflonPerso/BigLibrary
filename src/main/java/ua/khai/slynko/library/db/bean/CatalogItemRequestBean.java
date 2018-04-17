@@ -14,8 +14,6 @@ import ua.khai.slynko.library.db.entity.Entity;
  */
 public class CatalogItemRequestBean extends Entity {
 
-	private static final long serialVersionUID = -5654982557199337483L;
-
 	private String title;
 
 	private String author;

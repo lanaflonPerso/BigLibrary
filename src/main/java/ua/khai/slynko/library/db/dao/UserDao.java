@@ -7,7 +7,6 @@ import ua.khai.slynko.library.db.ConnectionManager;
 import ua.khai.slynko.library.db.entity.Locale;
 import ua.khai.slynko.library.db.entity.User;
 import ua.khai.slynko.library.exception.DBException;
-import ua.khai.slynko.library.exception.Messages;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,7 +90,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_REMOVE_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_REMOVE_USER, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -119,7 +118,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_SET_LOCALE, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_SET_LOCALE, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -148,8 +147,8 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -179,8 +178,8 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -210,8 +209,8 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -243,8 +242,8 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USERS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -292,7 +291,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -326,7 +325,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_EMAIL, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_BY_EMAIL, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -348,7 +347,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_UPDATE_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_UPDATE_USER, ex);
     } finally {
       close(con);
     }
@@ -371,7 +370,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_UPDATE_USER_PASSWORD, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_UPDATE_USER_PASSWORD, ex);
     } finally {
       close(con);
     }
@@ -395,7 +394,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_BLOCK_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_BLOCK_USER, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -420,7 +419,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_UNBLOCK_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_UNBLOCK_USER, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -459,7 +458,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_CHECK_IF_USER_IS_BLOCKED, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CHECK_IF_USER_IS_BLOCKED, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -491,7 +490,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_ID, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_BY_ID, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -523,7 +522,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -554,7 +553,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -626,7 +625,7 @@ public class UserDao {
     } catch (SQLException ex) {
       rollback(con);
       System.out.println(ex);
-      throw new DBException(Messages.ERR_CANNOT_CREATE_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CREATE_USER, ex);
     } finally {
       close(con);
     }
@@ -647,7 +646,7 @@ public class UserDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_CREATE_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CREATE_USER, ex);
     } finally {
       close(con);
     }

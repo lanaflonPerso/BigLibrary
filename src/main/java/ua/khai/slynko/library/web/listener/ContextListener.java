@@ -12,7 +12,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import ua.khai.slynko.library.exception.Messages;
+import ua.khai.slynko.library.constant.Constants;
 
 /**
  * Context listener.
@@ -50,7 +50,7 @@ public class ContextListener implements ServletContextListener {
 				try {
 					fis.close();
 				} catch (IOException ex) {
-					LOG.error(Messages.ERR_CANNOT_CLOSE_FIS, ex);
+					LOG.error(Constants.Messages.ERR_CANNOT_CLOSE_FIS, ex);
 				}
 			}
 		}

@@ -16,11 +16,10 @@ public class LibraryCardDao
 {
   private static final Logger LOG = Logger.getLogger(LibraryCardDao.class);
 
-
   /**
    * Create user's library card.
    *
-   * @param user
+   * @param userId
    *            user to update.
    * @throws SQLException
    */

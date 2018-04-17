@@ -5,7 +5,6 @@ import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.db.ConnectionManager;
 import ua.khai.slynko.library.db.entity.LibraryCardItem;
 import ua.khai.slynko.library.exception.DBException;
-import ua.khai.slynko.library.exception.Messages;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -83,8 +82,8 @@ public class LibraryCardItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -108,7 +107,7 @@ public class LibraryCardItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_REMOVE_LIBRARY_CARD_ITEM, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_REMOVE_LIBRARY_CARD_ITEM, ex);
     } finally {
       close(con);
     }
@@ -132,7 +131,7 @@ public class LibraryCardItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_REMOVE_UPDATE_CARD_ITEM, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_REMOVE_UPDATE_CARD_ITEM, ex);
     } finally {
       close(con);
     }

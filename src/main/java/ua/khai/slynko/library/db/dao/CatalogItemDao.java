@@ -9,7 +9,6 @@ import ua.khai.slynko.library.db.bean.CatalogItemRequestBean;
 import ua.khai.slynko.library.db.bean.UserCatalogItemBean;
 import ua.khai.slynko.library.db.entity.CatalogItem;
 import ua.khai.slynko.library.exception.DBException;
-import ua.khai.slynko.library.exception.Messages;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,8 +63,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
     } finally {
       close(con, stmt, rs);
     }
@@ -94,8 +93,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -123,8 +122,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -154,8 +153,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -250,7 +249,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_REMOVE_CATALOG_ITEM, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_REMOVE_CATALOG_ITEM, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -281,7 +280,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_UPDATE_CATALOG_ITEM, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_UPDATE_CATALOG_ITEM, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -311,7 +310,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_CREATE_CATALOG_ITEM, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CREATE_CATALOG_ITEM, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -342,8 +341,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_USER_CATALOG_ITEM_BEANS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_CATALOG_ITEM_BEANS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_USER_CATALOG_ITEM_BEANS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_USER_CATALOG_ITEM_BEANS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -373,7 +372,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS_BY_STATUS_ID, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_BEANS_BY_STATUS_ID, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -406,8 +405,8 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      LOG.error(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_IDS, ex);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_IDS, ex);
+      LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_IDS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEM_IDS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -438,7 +437,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CATALOG_ITEMS, ex);
     } finally {
       close(con, pstmt, rs);
     }
@@ -473,7 +472,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_CREATE_USER, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CREATE_USER, ex);
     } finally {
       close(pstmt);
       close(con);
@@ -500,7 +499,7 @@ public class CatalogItemDao {
       con.commit();
     } catch (SQLException ex) {
       rollback(con);
-      throw new DBException(Messages.ERR_CANNOT_CREATE_CATALOG_ITEM_REQUEST, ex);
+      throw new DBException(Constants.Messages.ERR_CANNOT_CREATE_CATALOG_ITEM_REQUEST, ex);
     } finally {
       close(con);
     }

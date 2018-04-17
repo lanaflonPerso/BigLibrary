@@ -9,8 +9,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import ua.khai.slynko.library.constant.Constants;
 import ua.khai.slynko.library.exception.DBException;
-import ua.khai.slynko.library.exception.Messages;
 
 /**
  * DB manager. Works with Apache Derby DB. Only the required DAO methods are
@@ -46,8 +46,8 @@ public final class ConnectionManager {
 			ds = (DataSource) envContext.lookup("jdbc/LIBRARYDB");
 			LOG.trace("Data source ==> " + ds);
 		} catch (NamingException ex) {
-			LOG.error(Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
-			throw new DBException(Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
+			LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
+			throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
 		}
 	}
 
@@ -63,8 +63,8 @@ public final class ConnectionManager {
 		try {
 			con = ds.getConnection();
 		} catch (SQLException ex) {
-			LOG.error(Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
-			throw new DBException(Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
+			LOG.error(Constants.Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
+			throw new DBException(Constants.Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
 		}
 		return con;
 	}

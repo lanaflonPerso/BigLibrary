@@ -33,7 +33,7 @@ public class Controller extends HttpServlet {
 	/**
 	 * Main method of this controller.
 	 * 
-	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
 	 */
 	private void process(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {

@@ -1,7 +1,7 @@
 package ua.khai.slynko.library.db;
 
 import org.apache.log4j.Logger;
-import ua.khai.slynko.library.exception.Messages;
+import ua.khai.slynko.library.constant.Constants;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ public final class DBUtils {
       try {
         con.close();
       } catch (SQLException ex) {
-        LOG.error(Messages.ERR_CANNOT_CLOSE_CONNECTION, ex);
+        LOG.error(Constants.Messages.ERR_CANNOT_CLOSE_CONNECTION, ex);
       }
     }
   }
@@ -37,7 +37,7 @@ public final class DBUtils {
       try {
         stmt.close();
       } catch (SQLException ex) {
-        LOG.error(Messages.ERR_CANNOT_CLOSE_STATEMENT, ex);
+        LOG.error(Constants.Messages.ERR_CANNOT_CLOSE_STATEMENT, ex);
       }
     }
   }
@@ -50,7 +50,7 @@ public final class DBUtils {
       try {
         rs.close();
       } catch (SQLException ex) {
-        LOG.error(Messages.ERR_CANNOT_CLOSE_RESULTSET, ex);
+        LOG.error(Constants.Messages.ERR_CANNOT_CLOSE_RESULTSET, ex);
       }
     }
   }
