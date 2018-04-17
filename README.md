@@ -7,7 +7,7 @@ There are three roles :
  - reader
  - librarian
  
-Each role has it's own functionality which is secured on back-end side.
+Each role has it's own functionality that is secured on back-end side.
 
 # Technologies: 
 
